@@ -61,9 +61,9 @@ One-time authentication setup:
 4. Copy the OAuth application's Client ID and generate a Client Secret.
 5. In Netlify, open **Project configuration → Access & security → OAuth**.
 6. Install the GitHub provider and enter the Client ID and Client Secret.
-7. Give each editor write access to `clayrayy/billy-ready` on GitHub, then have them sign in at `/admin/`.
+7. Give each editor write access to `clayrayy/billy-ready` on GitHub, then have them sign in at `/admin/`. The CMS requests GitHub's `public_repo` scope so it cannot access private repositories.
 
-For direct publishing by multiple GitHub users on Netlify's Free plan, keep this website repository public. Never commit OAuth secrets or other credentials to the repository; the GitHub Client Secret belongs only in Netlify's OAuth settings.
+For direct publishing by multiple GitHub users on Netlify's Free plan, keep this website repository public. For the smallest authorization footprint, use a dedicated editor GitHub account whose only repository write access is this site. Never commit OAuth secrets or other credentials to the repository; the GitHub Client Secret belongs only in Netlify's OAuth settings.
 
 Song stories live in `src/content/songs`. To add a streaming link, add a `listenUrl` value to a song’s frontmatter:
 
