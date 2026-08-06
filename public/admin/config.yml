@@ -14,9 +14,9 @@ local_backend: true
 publish_mode: simple
 media_folder: public/uploads
 public_folder: /uploads
-site_url: https://billy-ready.netlify.app
-display_url: https://billy-ready.netlify.app
-logo_url: https://billy-ready.netlify.app/favicon.svg
+site_url: https://billyreadymusic.com
+display_url: https://billyreadymusic.com
+logo_url: https://billyreadymusic.com/favicon.svg
 show_preview_links: true
 
 collections:
