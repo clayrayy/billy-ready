@@ -43,7 +43,7 @@ pnpm preview
 3. Netlify will use `netlify.toml`:
    - Build command: `pnpm run build`
    - Publish directory: `dist`
-4. Add a `SITE_URL` environment variable with the final canonical origin, for example `https://www.example.com`.
+4. Optionally add a `SITE_URL` environment variable with the final canonical origin, for example `https://www.example.com`. Until then, builds use Netlify's automatically provided site URL.
 5. Connect the custom domain and choose one canonical version (`www` or apex). Redirect the other version to it.
 6. In Netlify, configure email notifications for the `booking-request` and `newsletter` forms.
 

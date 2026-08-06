@@ -1,13 +1,10 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
-const configuredSite = process.env.SITE_URL;
-
-if (process.env.NETLIFY === "true" && !configuredSite) {
-  throw new Error(
-    "SITE_URL is required for Netlify builds. Set it to the final canonical origin, such as https://www.example.com.",
-  );
-}
+// SITE_URL lets us pin the canonical origin once a custom domain is ready.
+// Netlify provides URL automatically for every build, so a new site can deploy
+// successfully before its custom domain has been connected.
+const configuredSite = process.env.SITE_URL ?? process.env.URL;
 
 const site = configuredSite ?? "http://localhost:4321";
 const sitemapExclusions = new Set(["/booking-thanks/", "/newsletter-thanks/"]);
