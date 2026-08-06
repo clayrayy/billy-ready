@@ -1,0 +1,13 @@
+---
+import { renderRichText } from "../lib/rich-text";
+
+interface Props {
+  body?: string;
+  class?: string;
+}
+
+const { body = "", class: className = "" } = Astro.props;
+const html = renderRichText(body);
+---
+
+<div class:list={["builder-prose", className]} set:html={html} />

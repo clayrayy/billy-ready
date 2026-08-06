@@ -1,0 +1,62 @@
+---
+import defaultHeroImage from "../assets/billy-ready-hero.webp";
+import type { PageHeroData } from "../types/page-builder";
+
+interface Props {
+  hero: PageHeroData;
+}
+
+const { hero } = Astro.props;
+const imagePosition = hero.imagePosition ?? "center";
+const heroImage = hero.image || defaultHeroImage.src;
+---
+
+{hero.style === "home" ? (
+  <section class="home-hero">
+    <div class="home-hero__visual" data-hero-image>
+      <img
+        src={heroImage}
+        alt={hero.imageAlt ?? ""}
+        width={hero.image ? undefined : defaultHeroImage.width}
+        height={hero.image ? undefined : defaultHeroImage.height}
+        style={`object-position: ${imagePosition} center`}
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </div>
+    <div class="home-hero__shade"></div>
+    <div class="home-hero__content page-shell">
+      <p class="eyebrow hero-enter hero-enter--1">{hero.eyebrow}</p>
+      <h1 class="hero-enter hero-enter--2">{hero.title} {hero.accent && <span>{hero.accent}</span>}</h1>
+      {hero.subheading && <p class="hero-tagline hero-enter hero-enter--3">{hero.subheading}</p>}
+      <p class="hero-copy hero-enter hero-enter--4">{hero.intro}</p>
+      {(hero.primaryAction || hero.secondaryAction) && (
+        <div class="hero-actions hero-enter hero-enter--4">
+          {hero.primaryAction && <a class="button button--light" href={hero.primaryAction.href}>{hero.primaryAction.label}</a>}
+          {hero.secondaryAction && <a class="text-link text-link--light" href={hero.secondaryAction.href}>{hero.secondaryAction.label} <span aria-hidden="true">→</span></a>}
+        </div>
+      )}
+    </div>
+    <a class="hero-scroll" href="#page-sections" aria-label="Continue to the page content"><span></span>Continue</a>
+  </section>
+) : (
+  <section class:list={["page-hero", { "page-hero--image": hero.style === "image" && hero.image }]}>
+    {hero.style === "image" && hero.image && (
+      <div class="page-hero__media" aria-hidden="true">
+        <img src={hero.image} alt="" style={`object-position: ${imagePosition} center`} loading="eager" fetchpriority="high" decoding="async" />
+      </div>
+    )}
+    <div class="page-shell page-hero__inner">
+      <p class="eyebrow hero-enter hero-enter--1">{hero.eyebrow}</p>
+      <h1 class="hero-enter hero-enter--2">{hero.title}{hero.accent && <> <em>{hero.accent}</em></>}</h1>
+      <p class="page-hero__intro hero-enter hero-enter--3">{hero.intro}</p>
+      {(hero.primaryAction || hero.secondaryAction) && (
+        <div class="page-hero__actions hero-enter hero-enter--3">
+          {hero.primaryAction && <a class="button button--light" href={hero.primaryAction.href}>{hero.primaryAction.label}</a>}
+          {hero.secondaryAction && <a class="text-link text-link--light" href={hero.secondaryAction.href}>{hero.secondaryAction.label} <span aria-hidden="true">→</span></a>}
+        </div>
+      )}
+    </div>
+  </section>
+)}

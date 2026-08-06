@@ -1,38 +1,9 @@
 ---
-import { getCollection } from "astro:content";
-import PageHero from "../components/PageHero.astro";
+import EditablePage from "../components/EditablePage.astro";
 import music from "../content/pages/music.json";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import { parseEditablePage } from "../lib/page-schema";
 
-const songs = (await getCollection("songs")).sort((a, b) => a.data.order - b.data.order);
+const page = parseEditablePage(music);
 ---
 
-<BaseLayout
-  title="Christ-Centered Songs"
-  description="Listen to and discover the stories behind Billy Ready’s Christ-centered songs about faith, perseverance, redemption, and hope."
->
-  <PageHero
-    eyebrow={music.heroEyebrow}
-    title={music.heroTitle}
-    intro={music.heroIntro}
-  />
-  <section class="section page-shell">
-    <ol class="song-list song-list--page reveal">
-      {songs.map((song, index) => (
-        <li>
-          <span class="song-number">{String(index + 1).padStart(2, "0")}</span>
-          <a href={`/songs/${song.id}`}>
-            <span class="song-title">{song.data.title}</span>
-            <span class="song-summary">{song.data.summary}</span>
-            {song.data.scripture && <span class="song-scripture">{song.data.scripture}</span>}
-            <span class="song-arrow" aria-hidden="true">→</span>
-          </a>
-        </li>
-      ))}
-    </ol>
-    <div class="coming-note reveal">
-      <p class="eyebrow">{music.noteEyebrow}</p>
-      <p>{music.noteBody}</p>
-    </div>
-  </section>
-</BaseLayout>
+<EditablePage page={page} />

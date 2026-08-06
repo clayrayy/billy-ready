@@ -1,16 +1,48 @@
 {
-  "heroEyebrow": "Music ministry",
-  "heroTitle": "More than a performance.",
-  "heroIntro": "An opportunity to worship together, open God’s Word, and remember His faithfulness.",
-  "heartEyebrow": "The heart of each gathering",
-  "heartTitle": "To point people to Jesus Christ.",
-  "heartLead": "Based in Mississippi, Billy Ready Music partners with churches, conferences, retreats, and Christian organizations through Christ-centered music, Gospel hope, biblical encouragement, and authentic testimony.",
-  "heartBody": "Whether your church seats fifty people or five hundred, each gathering is prayerfully shaped around the needs of your congregation.",
-  "eventsEyebrow": "Available ministry events",
-  "eventsTitle": "Gatherings of many kinds. One enduring hope.",
-  "expectEyebrow": "What you can expect",
-  "expectTitle": "Music, Scripture, and honest encouragement.",
-  "expectIntro": "Every event is customized, but a gathering may include:",
-  "calloutEyebrow": "Bring the music to your church",
-  "calloutTitle": "Let’s begin with a conversation."
+  "seo": {
+    "title": "Church Concerts & Music Ministry",
+    "description": "Invite Billy Ready for a Christ-centered church concert, worship service, revival, retreat, conference, or special ministry event."
+  },
+  "hero": {
+    "style": "standard",
+    "eyebrow": "Music ministry",
+    "title": "More than a performance.",
+    "intro": "An opportunity to worship together, open God’s Word, and remember His faithfulness."
+  },
+  "sections": [
+    {
+      "type": "richText",
+      "theme": "cream",
+      "layout": "split",
+      "eyebrow": "The heart of each gathering",
+      "heading": "To point people to Jesus Christ.",
+      "lead": "Based in Mississippi, Billy Ready Music partners with churches, conferences, retreats, and Christian organizations through Christ-centered music, Gospel hope, biblical encouragement, and authentic testimony.",
+      "body": "Whether your church seats fifty people or five hundred, each gathering is prayerfully shaped around the needs of your congregation."
+    },
+    {
+      "type": "featureList",
+      "theme": "dark",
+      "eyebrow": "Available ministry events",
+      "heading": "Gatherings of many kinds. One enduring hope.",
+      "source": "ministryEvents",
+      "style": "numbered"
+    },
+    {
+      "type": "featureList",
+      "theme": "cream",
+      "eyebrow": "What you can expect",
+      "heading": "Music, Scripture, and honest encouragement.",
+      "intro": "Every event is customized, but a gathering may include:",
+      "source": "ministryIncludes",
+      "style": "checks"
+    },
+    {
+      "type": "callToAction",
+      "theme": "gold",
+      "eyebrow": "Bring the music to your church",
+      "heading": "Let’s begin with a conversation.",
+      "body": "Tell us about your church, gathering, or special event.",
+      "primaryAction": { "label": "Request a booking", "href": "/book" }
+    }
+  ]
 }

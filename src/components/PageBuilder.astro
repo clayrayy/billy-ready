@@ -1,0 +1,223 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { ministryEvents, ministryIncludes, site } from "../data/site";
+import type { PageSection } from "../types/page-builder";
+import BookingForm from "./BookingForm.astro";
+import NewsletterForm from "./NewsletterForm.astro";
+import RichText from "./RichText.astro";
+
+interface Props {
+  sections: PageSection[];
+  songs: CollectionEntry<"songs">[];
+}
+
+const { sections, songs } = Astro.props;
+const sectionTheme = (section: PageSection) => section.theme ?? "cream";
+const listItems = (section: Extract<PageSection, { type: "featureList" }>) => {
+  if (section.source === "ministryEvents") return ministryEvents;
+  if (section.source === "ministryIncludes") return ministryIncludes;
+  return section.items ?? [];
+};
+---
+
+<div id="page-sections" class="page-builder">
+  {sections.map((section) => (
+    <Fragment>
+      {section.type === "richText" && (
+        <section class:list={["builder-section", `builder-theme--${sectionTheme(section)}`, `builder-rich--${section.layout ?? "split"}`]}>
+          <div class="page-shell builder-rich reveal">
+            <div class="builder-heading">
+              {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+              {section.heading && <h2>{section.heading}</h2>}
+            </div>
+            <div class="builder-copy">
+              {section.lead && <p class="lead">{section.lead}</p>}
+              <RichText body={section.body} />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {section.type === "imageText" && (
+        <section class:list={["builder-section", `builder-theme--${sectionTheme(section)}`]}>
+          <div class:list={["page-shell", "builder-image-text", `builder-image-text--${section.imagePosition ?? "left"}`, "reveal"]}>
+            <figure class:list={["builder-media", `builder-media--${section.imageFit ?? "cover"}`]}>
+              <img src={section.image} alt={section.imageAlt} loading="lazy" decoding="async" />
+              {section.imageCaption && <figcaption>{section.imageCaption}</figcaption>}
+            </figure>
+            <div class="builder-copy">
+              {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+              {section.heading && <h2>{section.heading}</h2>}
+              <RichText body={section.body} />
+              {section.action && <a class:list={["text-link", { "text-link--light": sectionTheme(section) === "dark" }]} href={section.action.href}>{section.action.label} <span aria-hidden="true">→</span></a>}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {section.type === "quote" && (
+        <section class:list={["builder-section", "builder-quote", `builder-theme--${sectionTheme(section)}`]}>
+          <div class="page-shell reveal">
+            {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+            <blockquote>“{section.quote}”</blockquote>
+            {section.attribution && <p class="quote-attribution">{section.attribution}</p>}
+            <div class="quote-rule" aria-hidden="true"></div>
+          </div>
+        </section>
+      )}
+
+      {section.type === "gallery" && (
+        <section class:list={["builder-section", "builder-gallery", `builder-theme--${sectionTheme(section)}`]}>
+          <div class="page-shell reveal">
+            <div class="builder-gallery__heading">
+              <div>
+                {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+                {section.heading && <h2>{section.heading}</h2>}
+              </div>
+              {section.intro && <p>{section.intro}</p>}
+            </div>
+            <div class:list={["builder-gallery__grid", `builder-gallery__grid--${section.columns ?? "two"}`]}>
+              {section.images.map((item) => (
+                <figure>
+                  <img src={item.image} alt={item.alt} loading="lazy" decoding="async" />
+                  {item.caption && <figcaption>{item.caption}</figcaption>}
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {section.type === "songList" && (
+        <section class:list={["builder-section", "builder-songs", `builder-theme--${sectionTheme(section)}`]}>
+          <div class="page-shell">
+            <div class="section-heading reveal">
+              <div>
+                {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+                {section.heading && <h2>{section.heading}</h2>}
+                {section.intro && <p class="builder-section-intro">{section.intro}</p>}
+              </div>
+              {section.action && <a class="text-link" href={section.action.href}>{section.action.label} <span aria-hidden="true">→</span></a>}
+            </div>
+            <ol class="song-list reveal">
+              {songs.slice(0, section.limit && section.limit > 0 ? section.limit : songs.length).map((song, index) => (
+                <li>
+                  <span class="song-number">{String(index + 1).padStart(2, "0")}</span>
+                  <a href={`/songs/${song.id}`}>
+                    <span class="song-title">{song.data.title}</span>
+                    <span class="song-summary">{song.data.summary}</span>
+                    {section.showScripture && song.data.scripture && <span class="song-scripture">{song.data.scripture}</span>}
+                    <span class="song-arrow" aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
+
+      {section.type === "featureList" && (
+        <section class:list={["builder-section", "builder-feature-list", `builder-theme--${sectionTheme(section)}`]}>
+          <div class="page-shell builder-feature-list__layout reveal">
+            <div>
+              {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+              {section.heading && <h2>{section.heading}</h2>}
+              {section.intro && <p class="builder-section-intro">{section.intro}</p>}
+              {section.action && <a class:list={["text-link", { "text-link--light": sectionTheme(section) === "dark" }]} href={section.action.href}>{section.action.label} <span aria-hidden="true">→</span></a>}
+            </div>
+            <ol class:list={["builder-list", `builder-list--${section.style ?? "plain"}`]}>
+              {listItems(section).map((item, index) => (
+                <li>{section.style === "numbered" && <span>{String(index + 1).padStart(2, "0")}</span>}{item}</li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
+
+      {section.type === "roles" && (
+        <section class:list={["builder-section", "builder-roles", `builder-theme--${sectionTheme(section)}`]}>
+          <div class="page-shell builder-roles__layout reveal">
+            <div>
+              {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+              <p class="builder-roles__names">{section.roles.map((role) => <span>{role}</span>)}</p>
+            </div>
+            <div class="builder-copy">
+              {section.body && <RichText body={section.body} />}
+              {section.action && <a class:list={["text-link", { "text-link--light": sectionTheme(section) === "dark" }]} href={section.action.href}>{section.action.label} <span aria-hidden="true">→</span></a>}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {section.type === "statement" && (
+        <section class:list={["builder-section", "builder-statement", `builder-theme--${sectionTheme(section)}`]}>
+          <div class="page-shell reveal">
+            {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+            {section.heading && <h2>{section.heading}</h2>}
+            <RichText body={section.body} />
+          </div>
+        </section>
+      )}
+
+      {section.type === "callToAction" && (
+        <section class:list={["builder-section", "builder-cta", `builder-theme--${sectionTheme(section)}`]}>
+          <div class="page-shell builder-cta__layout reveal">
+            <div>
+              {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+              {section.heading && <h2>{section.heading}</h2>}
+              {section.body && <p>{section.body}</p>}
+            </div>
+            <div class="builder-actions">
+              <a class:list={["button", sectionTheme(section) === "dark" ? "button--light" : "button--dark"]} href={section.primaryAction.href}>{section.primaryAction.label}</a>
+              {section.secondaryAction && <a class:list={["text-link", { "text-link--light": sectionTheme(section) === "dark" }]} href={section.secondaryAction.href}>{section.secondaryAction.label} <span aria-hidden="true">→</span></a>}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {section.type === "newsletter" && (
+        <section class:list={["builder-section", "builder-newsletter", `builder-theme--${sectionTheme(section)}`]}>
+          <div class="page-shell builder-newsletter__layout reveal">
+            <div>
+              {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+              {section.heading && <h2>{section.heading}</h2>}
+              <p>{section.body}</p>
+            </div>
+            <div><NewsletterForm /></div>
+          </div>
+        </section>
+      )}
+
+      {section.type === "bookingForm" && (
+        <section class:list={["builder-section", "builder-booking", `builder-theme--${sectionTheme(section)}`]}>
+          <div class="page-shell booking-layout">
+            <div class="booking-details reveal">
+              {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+              {section.heading && <h2>{section.heading}</h2>}
+              <p>{section.body}</p>
+              <div class="direct-contact"><span>Prefer to call?</span><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></div>
+              {section.contactNote && <p class="contact-note">{section.contactNote}</p>}
+            </div>
+            <BookingForm />
+          </div>
+        </section>
+      )}
+
+      {section.type === "imageBanner" && (
+        <section class:list={["builder-image-banner", `builder-image-banner--${section.height ?? "medium"}`]}>
+          <img src={section.image} alt={section.imageAlt} style={`object-position: ${section.imagePosition ?? "center"} center`} loading="lazy" decoding="async" />
+          {(section.eyebrow || section.heading || section.body || section.action) && (
+            <div class="builder-image-banner__shade">
+              <div class="page-shell builder-image-banner__content reveal">
+                {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
+                {section.heading && <h2>{section.heading}</h2>}
+                {section.body && <p>{section.body}</p>}
+                {section.action && <a class="button button--light" href={section.action.href}>{section.action.label}</a>}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
+    </Fragment>
+  ))}
+</div>

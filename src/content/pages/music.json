@@ -1,7 +1,26 @@
 {
-  "heroEyebrow": "The music",
-  "heroTitle": "Songs for the road you’re walking.",
-  "heroIntro": "Songs shaped by Scripture, honest experience, and the faithfulness of God in every season.",
-  "noteEyebrow": "Listening links",
-  "noteBody": "Streaming and purchase links will appear here as soon as Billy’s preferred music platforms are connected."
+  "seo": {
+    "title": "Christ-Centered Songs",
+    "description": "Listen to and discover the stories behind Billy Ready’s Christ-centered songs about faith, perseverance, redemption, and hope."
+  },
+  "hero": {
+    "style": "standard",
+    "eyebrow": "The music",
+    "title": "Songs for the road you’re walking.",
+    "intro": "Songs shaped by Scripture, honest experience, and the faithfulness of God in every season."
+  },
+  "sections": [
+    {
+      "type": "songList",
+      "theme": "paper",
+      "showScripture": true
+    },
+    {
+      "type": "richText",
+      "theme": "cream",
+      "layout": "article",
+      "eyebrow": "Listening links",
+      "body": "Streaming and purchase links will appear here as soon as Billy’s preferred music platforms are connected."
+    }
+  ]
 }

@@ -5,20 +5,27 @@ backend:
   auth_scope: public_repo
   use_graphql: true
 
+# On localhost, Decap uses `npx decap-server` instead of GitHub OAuth.
+# Production continues to use the GitHub backend above.
+local_backend: true
+
 publish_mode: simple
 media_folder: public/uploads
 public_folder: /uploads
-
-editor:
-  preview: false
+site_url: https://billy-ready.netlify.app
+display_url: https://billy-ready.netlify.app
+logo_url: https://billy-ready.netlify.app/favicon.svg
+show_preview_links: true
 
 collections:
   - name: settings
     label: Site settings
+    description: Contact details, social links, and reusable ministry lists.
     files:
       - name: site
         label: Contact and ministry
         file: src/content/settings/site.json
+        description: Changes here can appear across several pages and forms.
         fields:
           - label: Site name
             name: name
@@ -38,6 +45,7 @@ collections:
             name: phone
             widget: string
             hint: Use international format without spaces, such as +16018185665.
+            pattern: ['^\+[1-9][0-9]{7,14}$', 'Enter a full international number such as +16018185665.']
           - label: Display phone number
             name: phoneDisplay
             widget: string
@@ -46,6 +54,7 @@ collections:
             name: email
             widget: string
             required: false
+            pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', 'Enter a complete email address.']
           - label: Location
             name: location
             widget: string
@@ -62,6 +71,7 @@ collections:
               - label: URL
                 name: href
                 widget: string
+                pattern: ['^https://', 'Use a complete secure URL beginning with https://']
           - label: Ministry event types
             name: ministryEvents
             widget: list
@@ -78,106 +88,489 @@ collections:
               widget: string
 
   - name: pages
-    label: Page copy
+    label: Pages
+    description: Build each page from designed, reorderable sections with rich text and imagery.
     files:
       - name: home
         label: Homepage
         file: src/content/pages/home.json
+        preview_path: /
+        description: Homepage hero, content sections, images, music, and calls to action.
         fields:
-          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
-          - { label: Hero tagline — first line, name: heroTaglineFirstLine, widget: string }
-          - { label: Hero tagline — second line, name: heroTaglineSecondLine, widget: string }
-          - { label: Hero introduction, name: heroCopy, widget: text }
-          - { label: Story eyebrow, name: storyEyebrow, widget: string }
-          - { label: Story heading, name: storyTitle, widget: string }
-          - { label: Story lead, name: storyLead, widget: text }
-          - { label: Story detail, name: storyBody, widget: text }
-          - { label: Music eyebrow, name: musicEyebrow, widget: string }
-          - { label: Music heading, name: musicTitle, widget: string }
-          - { label: Quote eyebrow, name: quoteEyebrow, widget: string }
-          - { label: Quote, name: quote, widget: text }
-          - { label: Quote attribution, name: quoteAttribution, widget: string }
-          - { label: Ministry eyebrow, name: ministryEyebrow, widget: string }
-          - { label: Ministry heading, name: ministryTitle, widget: string }
-          - { label: Ministry introduction, name: ministryBody, widget: text }
-          - { label: About eyebrow, name: aboutEyebrow, widget: string }
-          - { label: About introduction, name: aboutBody, widget: text }
-          - { label: Newsletter eyebrow, name: newsletterEyebrow, widget: string }
-          - { label: Newsletter heading, name: newsletterTitle, widget: string }
-          - { label: Newsletter introduction, name: newsletterBody, widget: text }
+          - label: Search and sharing
+            name: seo
+            widget: object
+            collapsed: true
+            summary: "SEO — {{fields.title}}"
+            fields: &seo_fields
+              - label: Browser and search title
+                name: title
+                widget: string
+                hint: Aim for roughly 30–60 characters and describe this specific page.
+              - label: Search description
+                name: description
+                widget: text
+                hint: Aim for roughly 120–160 characters. This may appear in search results.
+              - label: Sharing image
+                name: image
+                widget: image
+                required: false
+                choose_url: false
+                media_library:
+                  config:
+                    max_file_size: 2097152
+                hint: Optional. A 1200 × 630 landscape image works best.
+              - label: Sharing image description
+                name: imageAlt
+                widget: string
+                required: false
+                hint: Describe the image for people who cannot see it.
+          - label: Hero
+            name: hero
+            widget: object
+            collapsed: true
+            summary: "Hero — {{fields.title}}"
+            fields:
+              - { label: Style, name: style, widget: hidden, default: home }
+              - { label: Small label, name: eyebrow, widget: string }
+              - { label: Main name, name: title, widget: string }
+              - { label: Accent word, name: accent, widget: string, required: false, hint: Shown beneath the main name in gold italic type. }
+              - { label: Tagline, name: subheading, widget: text, required: false, hint: Line breaks are preserved. }
+              - { label: Introduction, name: intro, widget: text }
+              - label: Background image
+                name: image
+                widget: image
+                required: false
+                choose_url: false
+                media_library:
+                  config:
+                    max_file_size: 2097152
+                hint: Leave empty to retain the original guitar image. Upload WebP or JPEG under 2 MB.
+              - { label: Image description, name: imageAlt, widget: string, hint: Briefly describe the image for accessibility. }
+              - label: Image focus
+                name: imagePosition
+                widget: select
+                default: center
+                options:
+                  - { label: Left, value: left }
+                  - { label: Center, value: center }
+                  - { label: Right, value: right }
+              - label: Primary button
+                name: primaryAction
+                widget: object
+                required: false
+                collapsed: true
+                fields: &action_fields
+                  - { label: Button text, name: label, widget: string }
+                  - label: Link
+                    name: href
+                    widget: string
+                    hint: Use a site path such as /music or a complete https:// URL.
+                    pattern: ['^(\/|https://)', 'Use a site path beginning with / or a complete https:// URL.']
+              - label: Secondary link
+                name: secondaryAction
+                widget: object
+                required: false
+                collapsed: true
+                fields: *action_fields
+          - label: Page sections
+            name: sections
+            widget: list
+            label_singular: Section
+            collapsed: true
+            minimize_collapsed: true
+            allow_reorder: true
+            summary: "{{fields.eyebrow}} — {{fields.heading}}"
+            hint: Add a section, drag or use the arrow controls to reorder it, and watch the preview update.
+            types: &page_section_types
+              - label: Rich text
+                name: richText
+                widget: object
+                summary: "Rich text — {{fields.heading}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Featured opening, name: lead, widget: text, required: false, hint: Optional larger opening paragraph. }
+                  - label: Content
+                    name: body
+                    widget: markdown
+                    modes: [rich_text]
+                    sanitize_preview: true
+                    buttons: [bold, italic, link, heading-three, quote, bulleted-list, numbered-list]
+                    editor_components: [image]
+                  - label: Layout
+                    name: layout
+                    widget: select
+                    default: split
+                    options:
+                      - { label: Heading beside text, value: split }
+                      - { label: Centered, value: centered }
+                      - { label: Article column, value: article }
+                  - label: Color theme
+                    name: theme
+                    widget: select
+                    default: cream
+                    options: &theme_options
+                      - { label: Warm cream, value: cream }
+                      - { label: Light paper, value: paper }
+                      - { label: Dark, value: dark }
+                      - { label: Gold, value: gold }
+
+              - label: Image and text
+                name: imageText
+                widget: object
+                summary: "Image + text — {{fields.heading}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - label: Content
+                    name: body
+                    widget: markdown
+                    modes: [rich_text]
+                    sanitize_preview: true
+                    buttons: [bold, italic, link, heading-three, quote, bulleted-list, numbered-list]
+                    editor_components: [image]
+                  - label: Image
+                    name: image
+                    widget: image
+                    choose_url: false
+                    media_library:
+                      config:
+                        max_file_size: 2097152
+                  - { label: Image description, name: imageAlt, widget: string, hint: Required for accessibility and image search. }
+                  - { label: Caption, name: imageCaption, widget: string, required: false }
+                  - label: Image side
+                    name: imagePosition
+                    widget: select
+                    default: left
+                    options:
+                      - { label: Left, value: left }
+                      - { label: Right, value: right }
+                  - label: Image fit
+                    name: imageFit
+                    widget: select
+                    default: cover
+                    options:
+                      - { label: Fill the image area, value: cover }
+                      - { label: Show the entire image, value: contain }
+                  - label: Optional link
+                    name: action
+                    widget: object
+                    required: false
+                    collapsed: true
+                    fields: *action_fields
+                  - { label: Color theme, name: theme, widget: select, default: cream, options: *theme_options }
+
+              - label: Large quote
+                name: quote
+                widget: object
+                summary: "Quote — {{fields.quote}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Quote, name: quote, widget: text }
+                  - { label: Attribution, name: attribution, widget: string, required: false }
+                  - { label: Color theme, name: theme, widget: select, default: dark, options: *theme_options }
+
+              - label: Image gallery
+                name: gallery
+                widget: object
+                summary: "Gallery — {{fields.heading}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Introduction, name: intro, widget: text, required: false }
+                  - label: Images
+                    name: images
+                    widget: list
+                    min: 1
+                    collapsed: true
+                    summary: "{{fields.caption}}"
+                    fields:
+                      - label: Image
+                        name: image
+                        widget: image
+                        choose_url: false
+                        media_library:
+                          config:
+                            max_file_size: 2097152
+                      - { label: Image description, name: alt, widget: string, hint: Required for accessibility and image search. }
+                      - { label: Caption, name: caption, widget: string, required: false }
+                  - label: Columns
+                    name: columns
+                    widget: select
+                    default: two
+                    options:
+                      - { label: Two, value: two }
+                      - { label: Three, value: three }
+                  - { label: Color theme, name: theme, widget: select, default: paper, options: *theme_options }
+
+              - label: Song list
+                name: songList
+                widget: object
+                summary: "Songs — {{fields.heading}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Introduction, name: intro, widget: text, required: false }
+                  - { label: Number of songs, name: limit, widget: number, value_type: int, min: 0, required: false, hint: Use 0 or leave empty to show every song. }
+                  - { label: Show Scripture references, name: showScripture, widget: boolean, default: false }
+                  - label: Optional link
+                    name: action
+                    widget: object
+                    required: false
+                    collapsed: true
+                    fields: *action_fields
+                  - { label: Color theme, name: theme, widget: select, default: paper, options: *theme_options }
+
+              - label: Feature list
+                name: featureList
+                widget: object
+                summary: "List — {{fields.heading}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Introduction, name: intro, widget: text, required: false }
+                  - label: List source
+                    name: source
+                    widget: select
+                    default: custom
+                    options:
+                      - { label: A custom list below, value: custom }
+                      - { label: Ministry event types from Site settings, value: ministryEvents }
+                      - { label: Gathering features from Site settings, value: ministryIncludes }
+                  - label: Custom items
+                    name: items
+                    widget: list
+                    required: false
+                    field: { label: Item, name: item, widget: string }
+                    hint: Used only when “A custom list” is selected.
+                  - label: List style
+                    name: style
+                    widget: select
+                    default: plain
+                    options:
+                      - { label: Simple lines, value: plain }
+                      - { label: Numbered, value: numbered }
+                      - { label: Star checks, value: checks }
+                  - label: Optional link
+                    name: action
+                    widget: object
+                    required: false
+                    collapsed: true
+                    fields: *action_fields
+                  - { label: Color theme, name: theme, widget: select, default: cream, options: *theme_options }
+
+              - label: Roles or credentials
+                name: roles
+                widget: object
+                summary: "Roles — {{fields.eyebrow}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - label: Large role lines
+                    name: roles
+                    widget: list
+                    min: 1
+                    field: { label: Role, name: role, widget: string }
+                  - label: Supporting content
+                    name: body
+                    widget: markdown
+                    required: false
+                    modes: [rich_text]
+                    sanitize_preview: true
+                    buttons: [bold, italic, link, bulleted-list]
+                    editor_components: [image]
+                  - label: Optional link
+                    name: action
+                    widget: object
+                    required: false
+                    collapsed: true
+                    fields: *action_fields
+                  - { label: Color theme, name: theme, widget: select, default: dark, options: *theme_options }
+
+              - label: Editorial statement
+                name: statement
+                widget: object
+                summary: "Statement — {{fields.eyebrow}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Optional heading, name: heading, widget: string, required: false }
+                  - label: Large statement
+                    name: body
+                    widget: markdown
+                    modes: [rich_text]
+                    sanitize_preview: true
+                    buttons: [bold, italic, link]
+                    editor_components: []
+                  - { label: Color theme, name: theme, widget: select, default: dark, options: *theme_options }
+
+              - label: Call to action
+                name: callToAction
+                widget: object
+                summary: "Call to action — {{fields.heading}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Supporting sentence, name: body, widget: text, required: false }
+                  - label: Primary button
+                    name: primaryAction
+                    widget: object
+                    fields: *action_fields
+                  - label: Secondary link
+                    name: secondaryAction
+                    widget: object
+                    required: false
+                    collapsed: true
+                    fields: *action_fields
+                  - { label: Color theme, name: theme, widget: select, default: gold, options: *theme_options }
+
+              - label: Newsletter signup
+                name: newsletter
+                widget: object
+                summary: "Newsletter — {{fields.heading}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Supporting sentence, name: body, widget: text }
+                  - { label: Color theme, name: theme, widget: select, default: gold, options: *theme_options }
+
+              - label: Booking form
+                name: bookingForm
+                widget: object
+                summary: "Booking — {{fields.heading}}"
+                fields:
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Supporting content, name: body, widget: text }
+                  - { label: Contact note, name: contactNote, widget: text, required: false }
+                  - { label: Color theme, name: theme, widget: select, default: cream, options: *theme_options }
+
+              - label: Full-width image banner
+                name: imageBanner
+                widget: object
+                summary: "Image banner — {{fields.heading}}"
+                fields:
+                  - label: Image
+                    name: image
+                    widget: image
+                    choose_url: false
+                    media_library:
+                      config:
+                        max_file_size: 2097152
+                  - { label: Image description, name: imageAlt, widget: string, hint: Required for accessibility and image search. }
+                  - label: Image focus
+                    name: imagePosition
+                    widget: select
+                    default: center
+                    options:
+                      - { label: Left, value: left }
+                      - { label: Center, value: center }
+                      - { label: Right, value: right }
+                  - label: Height
+                    name: height
+                    widget: select
+                    default: medium
+                    options:
+                      - { label: Short, value: short }
+                      - { label: Medium, value: medium }
+                      - { label: Tall, value: tall }
+                  - { label: Small label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Supporting sentence, name: body, widget: text, required: false }
+                  - label: Optional button
+                    name: action
+                    widget: object
+                    required: false
+                    collapsed: true
+                    fields: *action_fields
 
       - name: about
         label: About page
         file: src/content/pages/about.json
+        preview_path: /about
+        description: Biography, roles, ministry mission, imagery, and statement of faith.
         fields:
-          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
-          - { label: Hero heading, name: heroTitle, widget: string }
-          - { label: Hero introduction, name: heroIntro, widget: text }
-          - label: Biography paragraphs
-            name: storyParagraphs
-            widget: list
-            field: { label: Paragraph, name: paragraph, widget: text }
-          - { label: Mission eyebrow, name: missionEyebrow, widget: string }
-          - { label: Mission opening, name: missionStart, widget: text }
-          - { label: Mission emphasized phrase, name: missionSongs, widget: string }
-          - { label: Mission ending, name: missionEnd, widget: string }
-          - { label: Faith eyebrow, name: faithEyebrow, widget: string }
-          - { label: Faith heading, name: faithTitle, widget: string }
-          - label: Statement of faith paragraphs
-            name: faithParagraphs
-            widget: list
-            field: { label: Paragraph, name: paragraph, widget: text }
+          - { label: Search and sharing, name: seo, widget: object, collapsed: true, summary: "SEO — {{fields.title}}", fields: *seo_fields }
+          - &standard_hero
+            label: Hero
+            name: hero
+            widget: object
+            collapsed: true
+            summary: "Hero — {{fields.title}}"
+            fields:
+              - label: Style
+                name: style
+                widget: select
+                default: standard
+                options:
+                  - { label: Simple dark hero, value: standard }
+                  - { label: Hero with background image, value: image }
+              - { label: Small label, name: eyebrow, widget: string }
+              - { label: Heading, name: title, widget: string }
+              - { label: Accent phrase, name: accent, widget: string, required: false, hint: Optional gold italic phrase after the heading. }
+              - { label: Introduction, name: intro, widget: text }
+              - label: Background image
+                name: image
+                widget: image
+                required: false
+                choose_url: false
+                hint: Required only for the background-image hero style.
+                media_library:
+                  config:
+                    max_file_size: 2097152
+              - { label: Image description, name: imageAlt, widget: string, required: false }
+              - label: Image focus
+                name: imagePosition
+                widget: select
+                default: center
+                options:
+                  - { label: Left, value: left }
+                  - { label: Center, value: center }
+                  - { label: Right, value: right }
+              - { label: Primary button, name: primaryAction, widget: object, required: false, collapsed: true, fields: *action_fields }
+              - { label: Secondary link, name: secondaryAction, widget: object, required: false, collapsed: true, fields: *action_fields }
+          - { label: Page sections, label_singular: Section, name: sections, widget: list, allow_reorder: true, collapsed: true, minimize_collapsed: true, summary: "{{fields.eyebrow}} — {{fields.heading}}", hint: "Add, reorder, or remove designed sections. The preview updates as you work.", types: *page_section_types }
 
       - name: ministry
         label: Ministry page
         file: src/content/pages/ministry.json
+        preview_path: /ministry
+        description: Ministry approach, event lists, expectations, imagery, and booking callouts.
         fields:
-          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
-          - { label: Hero heading, name: heroTitle, widget: string }
-          - { label: Hero introduction, name: heroIntro, widget: text }
-          - { label: Heart eyebrow, name: heartEyebrow, widget: string }
-          - { label: Heart heading, name: heartTitle, widget: string }
-          - { label: Heart lead, name: heartLead, widget: text }
-          - { label: Heart detail, name: heartBody, widget: text }
-          - { label: Events eyebrow, name: eventsEyebrow, widget: string }
-          - { label: Events heading, name: eventsTitle, widget: string }
-          - { label: Expectations eyebrow, name: expectEyebrow, widget: string }
-          - { label: Expectations heading, name: expectTitle, widget: string }
-          - { label: Expectations introduction, name: expectIntro, widget: text }
-          - { label: Callout eyebrow, name: calloutEyebrow, widget: string }
-          - { label: Callout heading, name: calloutTitle, widget: string }
+          - { label: Search and sharing, name: seo, widget: object, collapsed: true, summary: "SEO — {{fields.title}}", fields: *seo_fields }
+          - *standard_hero
+          - { label: Page sections, label_singular: Section, name: sections, widget: list, allow_reorder: true, collapsed: true, minimize_collapsed: true, summary: "{{fields.eyebrow}} — {{fields.heading}}", hint: "Add, reorder, or remove designed sections. The preview updates as you work.", types: *page_section_types }
 
       - name: music
         label: Music page
         file: src/content/pages/music.json
+        preview_path: /music
+        description: Music introduction, song listings, rich content, imagery, and listening information.
         fields:
-          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
-          - { label: Hero heading, name: heroTitle, widget: string }
-          - { label: Hero introduction, name: heroIntro, widget: text }
-          - { label: Listening note eyebrow, name: noteEyebrow, widget: string }
-          - { label: Listening note, name: noteBody, widget: text }
+          - { label: Search and sharing, name: seo, widget: object, collapsed: true, summary: "SEO — {{fields.title}}", fields: *seo_fields }
+          - *standard_hero
+          - { label: Page sections, label_singular: Section, name: sections, widget: list, allow_reorder: true, collapsed: true, minimize_collapsed: true, summary: "{{fields.eyebrow}} — {{fields.heading}}", hint: "Add, reorder, or remove designed sections. The preview updates as you work.", types: *page_section_types }
 
       - name: booking
         label: Booking page
         file: src/content/pages/booking.json
+        preview_path: /book
+        description: Booking introduction, form placement, contact guidance, imagery, and supporting sections.
         fields:
-          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
-          - { label: Hero heading, name: heroTitle, widget: string }
-          - { label: Hero introduction, name: heroIntro, widget: text }
-          - { label: Details eyebrow, name: detailsEyebrow, widget: string }
-          - { label: Details heading, name: detailsTitle, widget: string }
-          - { label: Details introduction, name: detailsBody, widget: text }
-          - { label: Contact note, name: contactNote, widget: text }
+          - { label: Search and sharing, name: seo, widget: object, collapsed: true, summary: "SEO — {{fields.title}}", fields: *seo_fields }
+          - *standard_hero
+          - { label: Page sections, label_singular: Section, name: sections, widget: list, allow_reorder: true, collapsed: true, minimize_collapsed: true, summary: "{{fields.eyebrow}} — {{fields.heading}}", hint: "Add, reorder, or remove designed sections. Keep one Booking form section on this page.", types: *page_section_types }
 
   - name: songs
     label: Songs
     label_singular: Song
+    description: Create songs, set their order, and edit each behind-the-song story.
     folder: src/content/songs
     create: true
-    delete: true
+    delete: false
     extension: md
     format: frontmatter
     slug: "{{slug}}"
+    preview_path: "songs/{{slug}}"
     identifier_field: title
     summary: "{{title}} — {{summary}}"
     sortable_fields: [title, order]
@@ -199,11 +592,13 @@ collections:
         widget: number
         value_type: int
         min: 1
+        hint: Lower numbers appear first. Give each song a unique number.
       - label: Listening URL
         name: listenUrl
         widget: string
         required: false
         hint: Full link to the preferred streaming or purchase page.
+        pattern: ['^https://', 'Use a complete secure URL beginning with https://']
       - label: Story behind the song
         name: body
         widget: markdown

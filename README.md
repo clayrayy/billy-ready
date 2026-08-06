@@ -5,7 +5,7 @@ A fast, content-first website for Billy Ready’s Christ-centered music and mini
 ## Recommended stack
 
 - **Framework:** Astro + TypeScript. Pages are pre-rendered to plain HTML for speed, accessibility, and crawlability.
-- **Content:** Local Markdown content collections. Each song has a dedicated, search-friendly story page and typed metadata.
+- **Content:** Local JSON page blocks plus Markdown song stories. Each song has a dedicated, search-friendly story page and typed metadata.
 - **Hosting:** Netlify. It can deploy this static Astro build directly and process the booking/newsletter forms without a separate backend.
 - **Domain/DNS:** Purchase the final domain from a registrar you control, then point it to Netlify. Keep the domain account separate from the hosting account so it is easy to move later.
 - **Email:** Use a real domain mailbox such as `hello@yourdomain.com` through Google Workspace, Fastmail, or Zoho Mail. The source notes only included `readysong1025`, so no email address is published yet.
@@ -35,6 +35,14 @@ pnpm check
 pnpm build
 pnpm preview
 ```
+
+To use the CMS against your local files, keep the Astro server running and start Decap's local proxy in a second terminal:
+
+```bash
+npx decap-server
+```
+
+Then open `http://localhost:4321/admin/`. Local CMS changes are written to the working tree and appear in Astro's live preview; review them with `git diff` before committing.
 
 ## Deploy to Netlify
 
@@ -71,7 +79,18 @@ Song stories live in `src/content/songs`. To add a streaming link, add a `listen
 listenUrl: https://example.com/song
 ```
 
-Page copy lives in `src/content/pages`, while site-wide contact details, social profiles, and ministry lists live in `src/content/settings/site.json`. Both are editable from the CMS.
+Pages are assembled from designed blocks in `src/content/pages`. In **Pages**, open a page, expand **Page sections**, then add or reorder any of these section types:
+
+- Rich text, image and text, image gallery, or full-width image banner
+- Large quote, editorial statement, or roles and credentials
+- Song list or reusable/custom feature list
+- Call to action, newsletter signup, or booking form
+
+Every block includes only the layout and color choices that have been tested across desktop and mobile. Rich-text blocks support formatting, links, lists, quotations, and inline images. Dedicated image blocks include image focus, fit, captions, and required accessibility descriptions. Uploads are limited to 2 MB and stored in `public/uploads`.
+
+Site-wide contact details, social profiles, and reusable ministry lists live in `src/content/settings/site.json`. The editor includes a branded live preview that updates as fields change. Use the published-page link in the editor toolbar to compare against the current live site before publishing.
+
+Page content is validated during every build, including section structure, internal links, image descriptions, and SEO field lengths. Song deletion is disabled in the CMS to protect published story URLs; remove a song through Git only when its redirects and search impact have been reviewed.
 
 ## SEO included
 
@@ -102,14 +121,17 @@ Page copy lives in `src/content/pages`, while site-wide contact details, social 
 
 ## Key files
 
-- `src/pages/index.astro` — homepage
+- `src/components/PageBuilder.astro` — reusable visual section renderer
+- `src/components/EditableHero.astro` — editable homepage and interior-page heroes
+- `src/lib/page-schema.ts` — build-time validation for CMS page data
 - `src/layouts/BaseLayout.astro` — global metadata, JSON-LD, navigation, and footer
 - `src/styles/global.css` — complete visual system and responsive layout
+- `src/styles/page-builder.css` — responsive styles for editable blocks
 - `src/content.config.ts` — typed song content schema
 - `src/content/songs/` — editable song stories
-- `src/content/pages/` — CMS-managed page copy
+- `src/content/pages/` — CMS-managed SEO, hero, and ordered page blocks
 - `src/content/settings/site.json` — CMS-managed contact and ministry settings
 - `public/admin/` — Decap CMS interface and field configuration
-- `src/pages/book.astro` — Netlify booking form
+- `src/components/BookingForm.astro` — Netlify booking form block
 - `astro.config.mjs` — canonical site URL and sitemap configuration
 - `netlify.toml` — hosting build and security headers

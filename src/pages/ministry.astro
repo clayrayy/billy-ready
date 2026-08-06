@@ -1,67 +1,9 @@
 ---
-import PageHero from "../components/PageHero.astro";
+import EditablePage from "../components/EditablePage.astro";
 import ministry from "../content/pages/ministry.json";
-import { ministryEvents, ministryIncludes } from "../data/site";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import { parseEditablePage } from "../lib/page-schema";
+
+const page = parseEditablePage(ministry);
 ---
 
-<BaseLayout
-  title="Church Concerts & Music Ministry"
-  description="Invite Billy Ready for a Christ-centered church concert, worship service, revival, retreat, conference, or special ministry event."
->
-  <PageHero
-    eyebrow={ministry.heroEyebrow}
-    title={ministry.heroTitle}
-    intro={ministry.heroIntro}
-  />
-
-  <section class="section page-shell two-column-intro">
-    <div class="reveal">
-      <p class="eyebrow">{ministry.heartEyebrow}</p>
-      <h2>{ministry.heartTitle}</h2>
-    </div>
-    <div class="body-copy reveal">
-      <p class="lead">
-        {ministry.heartLead}
-      </p>
-      <p>
-        {ministry.heartBody}
-      </p>
-    </div>
-  </section>
-
-  <section class="dark-section section">
-    <div class="page-shell ministry-grid">
-      <div class="reveal">
-        <p class="eyebrow">{ministry.eventsEyebrow}</p>
-        <h2>{ministry.eventsTitle}</h2>
-      </div>
-      <ul class="numbered-grid reveal">
-        {ministryEvents.map((event, index) => (
-          <li><span>{String(index + 1).padStart(2, "0")}</span>{event}</li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section class="section page-shell expectation-layout">
-    <div class="reveal">
-      <p class="eyebrow">{ministry.expectEyebrow}</p>
-      <h2>{ministry.expectTitle}</h2>
-      <p>{ministry.expectIntro}</p>
-    </div>
-    <ul class="check-list reveal">
-      {ministryIncludes.map((item) => <li>{item}</li>)}
-    </ul>
-  </section>
-
-  <section class="callout-section">
-    <div class="page-shell callout-layout reveal">
-      <div>
-        <p class="eyebrow">{ministry.calloutEyebrow}</p>
-        <h2>{ministry.calloutTitle}</h2>
-      </div>
-      <a class="button button--light" href="/book">Request a booking</a>
-    </div>
-  </section>
-</BaseLayout>
+<EditablePage page={page} />

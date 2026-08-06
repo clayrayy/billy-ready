@@ -1,23 +1,73 @@
 {
-  "heroEyebrow": "Christ-centered songs · Honest stories",
-  "heroTaglineFirstLine": "Music for the",
-  "heroTaglineSecondLine": "Journey Home.",
-  "heroCopy": "Every song is a prayer that your heart will be pointed to Jesus Christ.",
-  "storyEyebrow": "Every song has a story",
-  "storyTitle": "Sometimes God’s answer to discouragement is another song.",
-  "storyLead": "Some songs are born out of celebration. Others come through disappointment, unanswered prayers, and quiet moments when God whispers, “Keep going.”",
-  "storyBody": "After a deeply discouraging response to one of his songs, Billy seriously considered laying songwriting aside. Instead, God began filling his heart with new melodies—reminders that the calling had not changed.",
-  "musicEyebrow": "Featured songs",
-  "musicTitle": "Hope for the road you’re walking.",
-  "quoteEyebrow": "The heart of the ministry",
-  "quote": "God’s faithfulness is greater than life’s greatest storms.",
-  "quoteAttribution": "— Billy Ready",
-  "ministryEyebrow": "Encouraging hearts through music",
-  "ministryTitle": "More than a concert.",
-  "ministryBody": "Based in Mississippi, Billy partners with churches and Christian organizations for gatherings centered on worship, God’s Word, and His faithfulness.",
-  "aboutEyebrow": "About Billy",
-  "aboutBody": "For decades, God has allowed Billy to serve people through pastoral ministry, Christian counseling, writing, and music—all with one purpose: helping people discover God’s faithfulness in every season of life.",
-  "newsletterEyebrow": "Stay connected",
-  "newsletterTitle": "A little encouragement for the journey.",
-  "newsletterBody": "Receive occasional devotionals, behind-the-song stories, ministry updates, and new music announcements."
+  "seo": {
+    "title": "Billy Ready Music",
+    "description": "Christ-centered songs, honest stories, and lasting hope from Mississippi pastor, Christian counselor, author, and songwriter Billy Ready.",
+    "image": "/images/billy-ready-og.jpg",
+    "imageAlt": "A well-worn acoustic guitar beside a church pew in warm evening light"
+  },
+  "hero": {
+    "style": "home",
+    "eyebrow": "Christ-centered songs · Honest stories",
+    "title": "Billy Ready",
+    "accent": "Music",
+    "subheading": "Music for the\nJourney Home.",
+    "intro": "Every song is a prayer that your heart will be pointed to Jesus Christ.",
+    "image": "",
+    "imageAlt": "A well-worn acoustic guitar resting beside a church pew in warm evening light",
+    "imagePosition": "center",
+    "primaryAction": { "label": "Explore the songs", "href": "/music" },
+    "secondaryAction": { "label": "Invite Billy", "href": "/book" }
+  },
+  "sections": [
+    {
+      "type": "richText",
+      "theme": "cream",
+      "layout": "split",
+      "eyebrow": "Every song has a story",
+      "heading": "Sometimes God’s answer to discouragement is another song.",
+      "lead": "Some songs are born out of celebration. Others come through disappointment, unanswered prayers, and quiet moments when God whispers, “Keep going.”",
+      "body": "After a deeply discouraging response to one of his songs, Billy seriously considered laying songwriting aside. Instead, God began filling his heart with new melodies—reminders that the calling had not changed.\n\n[Read the story of He Keeps Me Singing](/songs/he-keeps-me-singing)"
+    },
+    {
+      "type": "songList",
+      "theme": "paper",
+      "eyebrow": "Featured songs",
+      "heading": "Hope for the road you’re walking.",
+      "limit": 5,
+      "showScripture": false,
+      "action": { "label": "Explore all music", "href": "/music" }
+    },
+    {
+      "type": "quote",
+      "theme": "dark",
+      "eyebrow": "The heart of the ministry",
+      "quote": "God’s faithfulness is greater than life’s greatest storms.",
+      "attribution": "— Billy Ready"
+    },
+    {
+      "type": "featureList",
+      "theme": "cream",
+      "eyebrow": "Encouraging hearts through music",
+      "heading": "More than a concert.",
+      "intro": "Based in Mississippi, Billy partners with churches and Christian organizations for gatherings centered on worship, God’s Word, and His faithfulness.",
+      "source": "ministryEvents",
+      "style": "plain",
+      "action": { "label": "See the ministry approach", "href": "/ministry" }
+    },
+    {
+      "type": "roles",
+      "theme": "dark",
+      "eyebrow": "About Billy",
+      "roles": ["Pastor.", "Christian Counselor.", "Author.", "Songwriter."],
+      "body": "For decades, God has allowed Billy to serve people through pastoral ministry, Christian counseling, writing, and music—all with one purpose: helping people discover God’s faithfulness in every season of life.",
+      "action": { "label": "Meet Billy", "href": "/about" }
+    },
+    {
+      "type": "newsletter",
+      "theme": "gold",
+      "eyebrow": "Stay connected",
+      "heading": "A little encouragement for the journey.",
+      "body": "Receive occasional devotionals, behind-the-song stories, ministry updates, and new music announcements."
+    }
+  ]
 }

@@ -1,21 +1,34 @@
 {
-  "heroEyebrow": "About Billy",
-  "heroTitle": "One calling, expressed in many ways.",
-  "heroIntro": "Mississippi pastor, Christian counselor, author, and songwriter—each role serving one purpose: pointing people to the faithfulness of God.",
-  "storyParagraphs": [
-    "For decades, God has allowed Billy to serve people through pastoral ministry, Christian counseling, writing, and music.",
-    "Although those ministries may appear different, they share one purpose: helping people discover God’s faithfulness in every season of life.",
-    "Every song he writes, every devotional he publishes, and every message he shares flows from a desire to glorify Christ and encourage His people."
-  ],
-  "missionEyebrow": "Ministry mission",
-  "missionStart": "Billy Ready Music exists to encourage people with the hope of Jesus Christ through",
-  "missionSongs": "biblically faithful songs, honest stories,",
-  "missionEnd": "Christ-centered ministry.",
-  "faithEyebrow": "Statement of faith",
-  "faithTitle": "Built upon God’s Word and the saving grace of Jesus Christ.",
-  "faithParagraphs": [
-    "I believe the Bible is God’s inspired and trustworthy Word, revealing His character, His plan of redemption, and His will for our lives.",
-    "I believe Jesus Christ is the Son of God, who lived a sinless life, died for our sins, rose victorious over death, and offers eternal life to all who trust Him.",
-    "Whether through counseling, teaching, writing, or songwriting, my desire is to glorify God, encourage believers, and faithfully proclaim the hope found in Christ alone."
+  "seo": {
+    "title": "About Billy Ready",
+    "description": "Meet Billy Ready, a Mississippi pastor, Christian counselor, author, and songwriter sharing Christ-centered music and biblical encouragement."
+  },
+  "hero": {
+    "style": "standard",
+    "eyebrow": "About Billy",
+    "title": "One calling, expressed in many ways.",
+    "intro": "Mississippi pastor, Christian counselor, author, and songwriter—each role serving one purpose: pointing people to the faithfulness of God."
+  },
+  "sections": [
+    {
+      "type": "roles",
+      "theme": "cream",
+      "roles": ["Pastor.", "Christian Counselor.", "Author.", "Songwriter."],
+      "body": "For decades, God has allowed Billy to serve people through pastoral ministry, Christian counseling, writing, and music.\n\nAlthough those ministries may appear different, they share one purpose: helping people discover God’s faithfulness in every season of life.\n\nEvery song he writes, every devotional he publishes, and every message he shares flows from a desire to glorify Christ and encourage His people."
+    },
+    {
+      "type": "statement",
+      "theme": "dark",
+      "eyebrow": "Ministry mission",
+      "body": "Billy Ready Music exists to encourage people with the hope of Jesus Christ through *biblically faithful songs, honest stories,* and *Christ-centered ministry.*"
+    },
+    {
+      "type": "richText",
+      "theme": "cream",
+      "layout": "split",
+      "eyebrow": "Statement of faith",
+      "heading": "Built upon God’s Word and the saving grace of Jesus Christ.",
+      "body": "I believe the Bible is God’s inspired and trustworthy Word, revealing His character, His plan of redemption, and His will for our lives.\n\nI believe Jesus Christ is the Son of God, who lived a sinless life, died for our sins, rose victorious over death, and offers eternal life to all who trust Him.\n\nWhether through counseling, teaching, writing, or songwriting, my desire is to glorify God, encourage believers, and faithfully proclaim the hope found in Christ alone."
+    }
   ]
 }
