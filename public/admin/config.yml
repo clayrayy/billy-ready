@@ -1,7 +1,9 @@
 backend:
   name: github
   repo: clayrayy/billy-ready
-  branch: main
+  # Editors publish to staging. The live site is released by merging staging
+  # into main using the Release site control in the CMS.
+  branch: staging
   auth_scope: public_repo
   use_graphql: true
 

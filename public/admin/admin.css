@@ -1,0 +1,91 @@
+.release-dock {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: calc(100vw - 36px);
+  padding: 10px 12px 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: #17140f;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.28);
+  color: #fffdf7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.release-dock__status {
+  display: grid;
+  gap: 1px;
+}
+
+.release-dock__status strong {
+  color: #e0bc70;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.release-dock__status span {
+  color: rgba(255, 253, 247, 0.72);
+  white-space: nowrap;
+}
+
+.release-dock__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.release-dock__link {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  color: #fffdf7;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.release-dock__link:hover,
+.release-dock__link:focus-visible {
+  border-color: #e0bc70;
+  outline: none;
+}
+
+.release-dock__link--primary {
+  border-color: #e0bc70;
+  background: #e0bc70;
+  color: #17140f;
+}
+
+.release-dock__link--primary:hover,
+.release-dock__link--primary:focus-visible {
+  background: #f0d08c;
+}
+
+@media (max-width: 620px) {
+  .release-dock {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .release-dock__status span {
+    display: none;
+  }
+
+  .release-dock__actions {
+    flex: 1;
+    justify-content: flex-end;
+  }
+}

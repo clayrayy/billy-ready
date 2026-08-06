@@ -7,9 +7,30 @@
     <title>Billy Ready Music — Content Manager</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="cms-config-url" href="/admin/config.yml" type="text/yaml" />
+    <link rel="stylesheet" href="/admin/admin.css" />
   </head>
   <body>
     <script src="https://unpkg.com/decap-cms@3.11.0/dist/decap-cms.js"></script>
     <script src="/admin/previews.js"></script>
+    <aside class="release-dock" aria-label="Website release controls">
+      <div class="release-dock__status">
+        <strong>Staging mode</strong>
+        <span>Published edits are not live yet.</span>
+      </div>
+      <div class="release-dock__actions">
+        <a
+          class="release-dock__link"
+          href="https://staging--billy-ready.netlify.app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >View staging</a>
+        <a
+          class="release-dock__link release-dock__link--primary"
+          href="https://github.com/clayrayy/billy-ready/compare/main...staging?expand=1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Release site</a>
+      </div>
+    </aside>
   </body>
 </html>
