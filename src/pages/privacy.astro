@@ -1,0 +1,31 @@
+---
+import PageHero from "../components/PageHero.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Privacy" description="How Billy Ready Music handles information submitted through this website.">
+  <PageHero
+    eyebrow="Privacy"
+    title="Your information is treated with care."
+    intro="A plain-language overview of what this website collects and why."
+  />
+  <article class="section page-shell legal-copy prose">
+    <h2>Information you provide</h2>
+    <p>
+      When you submit a booking request or join the email list, this website collects the information you enter, such as your name, contact details, organization, event information, and message.
+    </p>
+    <h2>How it is used</h2>
+    <p>
+      The information is used only to respond to your request, coordinate ministry events, or send the updates you requested. It is not sold.
+    </p>
+    <h2>Form processing</h2>
+    <p>
+      Website forms are processed by the site’s hosting provider. This notice will be updated if additional newsletter, analytics, or data-processing services are introduced.
+    </p>
+    <h2>Your choices</h2>
+    <p>
+      You may unsubscribe from email updates at any time. Privacy questions and data requests may be made through the booking form or by calling the number listed on this website.
+    </p>
+    <p><em>Last updated August 5, 2026.</em></p>
+  </article>
+</BaseLayout>

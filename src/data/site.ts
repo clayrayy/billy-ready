@@ -1,0 +1,39 @@
+export const site = {
+  name: "Billy Ready Music",
+  shortName: "BR Music",
+  tagline: "Music for the Journey Home",
+  description:
+    "Christ-centered songs, honest stories, and lasting hope from Mississippi pastor, Christian counselor, author, and songwriter Billy Ready.",
+  phone: "+16018185665",
+  phoneDisplay: "601.818.5665",
+  // TODO: Replace this before launch. The source material only included “readysong1025”.
+  email: "",
+  location: "Mississippi, USA",
+  socialLinks: [] as Array<{ label: string; href: string }>,
+};
+
+export const ministryEvents = [
+  "Church concerts",
+  "Worship services",
+  "Revivals",
+  "Bible conferences",
+  "Men’s conferences",
+  "Senior adult events",
+  "Christmas programs",
+  "Songwriter nights",
+  "Retreats",
+  "Counseling conferences",
+  "Special church events",
+];
+
+export const ministryIncludes = [
+  "Original Christ-centered songs",
+  "Congregational worship",
+  "Favorite hymns and Gospel classics",
+  "Stories behind the songs",
+  "Scripture-based devotional thoughts",
+  "Personal testimony",
+  "Encouragement for those facing life’s storms",
+  "Meet-and-greet after the service",
+  "Ministry resources and books",
+];

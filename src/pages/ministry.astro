@@ -1,0 +1,66 @@
+---
+import PageHero from "../components/PageHero.astro";
+import { ministryEvents, ministryIncludes } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Church Concerts & Music Ministry"
+  description="Invite Billy Ready for a Christ-centered church concert, worship service, revival, retreat, conference, or special ministry event."
+>
+  <PageHero
+    eyebrow="Music ministry"
+    title="More than a performance."
+    intro="An opportunity to worship together, open God’s Word, and remember His faithfulness."
+  />
+
+  <section class="section page-shell two-column-intro">
+    <div class="reveal">
+      <p class="eyebrow">The heart of each gathering</p>
+      <h2>To point people to Jesus Christ.</h2>
+    </div>
+    <div class="body-copy reveal">
+      <p class="lead">
+        Based in Mississippi, Billy Ready Music partners with churches, conferences, retreats, and Christian organizations through Christ-centered music, Gospel hope, biblical encouragement, and authentic testimony.
+      </p>
+      <p>
+        Whether your church seats fifty people or five hundred, each gathering is prayerfully shaped around the needs of your congregation.
+      </p>
+    </div>
+  </section>
+
+  <section class="dark-section section">
+    <div class="page-shell ministry-grid">
+      <div class="reveal">
+        <p class="eyebrow">Available ministry events</p>
+        <h2>Gatherings of many kinds. One enduring hope.</h2>
+      </div>
+      <ul class="numbered-grid reveal">
+        {ministryEvents.map((event, index) => (
+          <li><span>{String(index + 1).padStart(2, "0")}</span>{event}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section page-shell expectation-layout">
+    <div class="reveal">
+      <p class="eyebrow">What you can expect</p>
+      <h2>Music, Scripture, and honest encouragement.</h2>
+      <p>Every event is customized, but a gathering may include:</p>
+    </div>
+    <ul class="check-list reveal">
+      {ministryIncludes.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section class="callout-section">
+    <div class="page-shell callout-layout reveal">
+      <div>
+        <p class="eyebrow">Bring the music to your church</p>
+        <h2>Let’s begin with a conversation.</h2>
+      </div>
+      <a class="button button--light" href="/book">Request a booking</a>
+    </div>
+  </section>
+</BaseLayout>

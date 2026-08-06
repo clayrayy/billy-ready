@@ -1,0 +1,222 @@
+---
+import "../styles/global.css";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  transparentHeader?: boolean;
+  noindex?: boolean;
+  schema?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const {
+  title = site.name,
+  description = site.description,
+  image = "/images/billy-ready-og.jpg",
+  transparentHeader = false,
+  noindex = false,
+  schema,
+} = Astro.props;
+
+const pageTitle = title === site.name ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL(image, Astro.site);
+const baseSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: new URL("/", Astro.site).href,
+    description: site.description,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Billy Ready",
+    url: new URL("/about", Astro.site).href,
+    jobTitle: ["Singer-songwriter", "Pastor", "Christian counselor", "Author"],
+    description: site.description,
+    address: {
+      "@type": "PostalAddress",
+      addressRegion: "Mississippi",
+      addressCountry: "US",
+    },
+  },
+];
+const schemas = [...baseSchema, ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#17140f" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1792" />
+    <meta property="og:image:height" content="896" />
+    <meta property="og:image:alt" content="A well-worn acoustic guitar beside a church pew in warm evening light" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemas)} />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+  </head>
+  <body class:list={{ "has-overlay-header": transparentHeader }}>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class:list={["site-header", { "site-header--overlay": transparentHeader }]}>
+      <a class="brand" href="/" aria-label="Billy Ready Music home">
+        <span class="brand-mark" aria-hidden="true">BR</span>
+        <span class="brand-name">Billy Ready <i>Music</i></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+        <span class="sr-only">Open menu</span>
+        <span></span><span></span>
+      </button>
+      <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
+        <a href="/music">Music</a>
+        <a href="/ministry">Ministry</a>
+        <a href="/about">About</a>
+        <a class="nav-cta" href="/book">Invite Billy</a>
+      </nav>
+    </header>
+    <main id="main-content"><slot /></main>
+    <footer class="site-footer">
+      <div class="footer-main page-shell">
+        <div>
+          <p class="footer-brand">Billy Ready Music</p>
+          <p>Christ-centered songs. Honest stories.<br />Lasting hope.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/music">Music</a>
+          <a href="/ministry">Ministry</a>
+          <a href="/about">About Billy</a>
+          <a href="/book">Booking</a>
+          <a href="/privacy">Privacy</a>
+        </div>
+        <div class="footer-contact">
+          <p class="eyebrow">Start a conversation</p>
+          <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
+          {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
+        </div>
+      </div>
+      <div class="footer-bottom page-shell">
+        <span>© {new Date().getFullYear()} Billy Ready Music</span>
+        <span>Music for the Journey Home.</span>
+      </div>
+    </footer>
+
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+      const nav = document.querySelector<HTMLElement>(".primary-nav");
+      const mobileNav = window.matchMedia("(max-width: 720px)");
+
+      const setMenuState = (open: boolean, returnFocus = false) => {
+        if (!toggle || !nav) return;
+
+        const mobileOpen = mobileNav.matches && open;
+        toggle.setAttribute("aria-expanded", String(mobileOpen));
+        nav.classList.toggle("is-open", mobileOpen);
+        nav.toggleAttribute("inert", mobileNav.matches && !mobileOpen);
+        document.body.classList.toggle("menu-open", mobileOpen);
+
+        if (mobileNav.matches) {
+          if (mobileOpen) nav.removeAttribute("aria-hidden");
+          else nav.setAttribute("aria-hidden", "true");
+        } else {
+          nav.removeAttribute("aria-hidden");
+        }
+
+        if (mobileOpen) {
+          requestAnimationFrame(() => nav.querySelector<HTMLAnchorElement>("a")?.focus());
+        } else if (returnFocus) {
+          toggle.focus();
+        }
+      };
+
+      toggle?.addEventListener("click", () => {
+        const open = toggle.getAttribute("aria-expanded") !== "true";
+        setMenuState(open);
+      });
+
+      nav?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => setMenuState(false));
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && toggle?.getAttribute("aria-expanded") === "true") {
+          setMenuState(false, true);
+        }
+
+        if (
+          event.key === "Tab" &&
+          toggle?.getAttribute("aria-expanded") === "true" &&
+          toggle &&
+          nav
+        ) {
+          const focusable = [toggle, ...nav.querySelectorAll<HTMLAnchorElement>("a")];
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
+      });
+
+      mobileNav.addEventListener("change", () => setMenuState(false));
+      setMenuState(false);
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reducedMotion) {
+        const observer = new IntersectionObserver(
+          (entries) => entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          }),
+          { threshold: 0.12 },
+        );
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+        const heroImage = document.querySelector<HTMLElement>("[data-hero-image]");
+        if (heroImage) {
+          let ticking = false;
+          const updateHero = () => {
+            const y = Math.min(window.scrollY * 0.08, 48);
+            heroImage.style.setProperty("--hero-shift", `${y}px`);
+            ticking = false;
+          };
+          window.addEventListener("scroll", () => {
+            if (!ticking) {
+              requestAnimationFrame(updateHero);
+              ticking = true;
+            }
+          }, { passive: true });
+        }
+      }
+    </script>
+  </body>
+</html>

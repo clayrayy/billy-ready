@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import PageHero from "../components/PageHero.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const songs = (await getCollection("songs")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Christ-Centered Songs"
+  description="Listen to and discover the stories behind Billy Ready’s Christ-centered songs about faith, perseverance, redemption, and hope."
+>
+  <PageHero
+    eyebrow="The music"
+    title="Songs for the road you’re walking."
+    intro="Songs shaped by Scripture, honest experience, and the faithfulness of God in every season."
+  />
+  <section class="section page-shell">
+    <ol class="song-list song-list--page reveal">
+      {songs.map((song, index) => (
+        <li>
+          <span class="song-number">{String(index + 1).padStart(2, "0")}</span>
+          <a href={`/songs/${song.id}`}>
+            <span class="song-title">{song.data.title}</span>
+            <span class="song-summary">{song.data.summary}</span>
+            {song.data.scripture && <span class="song-scripture">{song.data.scripture}</span>}
+            <span class="song-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <div class="coming-note reveal">
+      <p class="eyebrow">Listening links</p>
+      <p>Streaming and purchase links will appear here as soon as Billy’s preferred music platforms are connected.</p>
+    </div>
+  </section>
+</BaseLayout>
