@@ -1,0 +1,208 @@
+backend:
+  name: github
+  repo: clayrayy/billy-ready
+  branch: main
+  use_graphql: true
+
+publish_mode: simple
+media_folder: public/uploads
+public_folder: /uploads
+
+editor:
+  preview: false
+
+collections:
+  - name: settings
+    label: Site settings
+    files:
+      - name: site
+        label: Contact and ministry
+        file: src/content/settings/site.json
+        fields:
+          - label: Site name
+            name: name
+            widget: string
+          - label: Short name
+            name: shortName
+            widget: string
+            hint: Used where the full site name would be too long.
+          - label: Tagline
+            name: tagline
+            widget: string
+          - label: SEO description
+            name: description
+            widget: text
+            hint: Keep this concise. It is used as the default search and sharing description.
+          - label: Phone number
+            name: phone
+            widget: string
+            hint: Use international format without spaces, such as +16018185665.
+          - label: Display phone number
+            name: phoneDisplay
+            widget: string
+            hint: The reader-friendly version shown on the site.
+          - label: Email address
+            name: email
+            widget: string
+            required: false
+          - label: Location
+            name: location
+            widget: string
+          - label: Social links
+            name: socialLinks
+            widget: list
+            required: false
+            summary: "{{fields.label}}"
+            fields:
+              - label: Label
+                name: label
+                widget: string
+                hint: For example, YouTube or Facebook.
+              - label: URL
+                name: href
+                widget: string
+          - label: Ministry event types
+            name: ministryEvents
+            widget: list
+            field:
+              label: Event type
+              name: event
+              widget: string
+          - label: What a gathering may include
+            name: ministryIncludes
+            widget: list
+            field:
+              label: Item
+              name: item
+              widget: string
+
+  - name: pages
+    label: Page copy
+    files:
+      - name: home
+        label: Homepage
+        file: src/content/pages/home.json
+        fields:
+          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
+          - { label: Hero tagline — first line, name: heroTaglineFirstLine, widget: string }
+          - { label: Hero tagline — second line, name: heroTaglineSecondLine, widget: string }
+          - { label: Hero introduction, name: heroCopy, widget: text }
+          - { label: Story eyebrow, name: storyEyebrow, widget: string }
+          - { label: Story heading, name: storyTitle, widget: string }
+          - { label: Story lead, name: storyLead, widget: text }
+          - { label: Story detail, name: storyBody, widget: text }
+          - { label: Music eyebrow, name: musicEyebrow, widget: string }
+          - { label: Music heading, name: musicTitle, widget: string }
+          - { label: Quote eyebrow, name: quoteEyebrow, widget: string }
+          - { label: Quote, name: quote, widget: text }
+          - { label: Quote attribution, name: quoteAttribution, widget: string }
+          - { label: Ministry eyebrow, name: ministryEyebrow, widget: string }
+          - { label: Ministry heading, name: ministryTitle, widget: string }
+          - { label: Ministry introduction, name: ministryBody, widget: text }
+          - { label: About eyebrow, name: aboutEyebrow, widget: string }
+          - { label: About introduction, name: aboutBody, widget: text }
+          - { label: Newsletter eyebrow, name: newsletterEyebrow, widget: string }
+          - { label: Newsletter heading, name: newsletterTitle, widget: string }
+          - { label: Newsletter introduction, name: newsletterBody, widget: text }
+
+      - name: about
+        label: About page
+        file: src/content/pages/about.json
+        fields:
+          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
+          - { label: Hero heading, name: heroTitle, widget: string }
+          - { label: Hero introduction, name: heroIntro, widget: text }
+          - label: Biography paragraphs
+            name: storyParagraphs
+            widget: list
+            field: { label: Paragraph, name: paragraph, widget: text }
+          - { label: Mission eyebrow, name: missionEyebrow, widget: string }
+          - { label: Mission opening, name: missionStart, widget: text }
+          - { label: Mission emphasized phrase, name: missionSongs, widget: string }
+          - { label: Mission ending, name: missionEnd, widget: string }
+          - { label: Faith eyebrow, name: faithEyebrow, widget: string }
+          - { label: Faith heading, name: faithTitle, widget: string }
+          - label: Statement of faith paragraphs
+            name: faithParagraphs
+            widget: list
+            field: { label: Paragraph, name: paragraph, widget: text }
+
+      - name: ministry
+        label: Ministry page
+        file: src/content/pages/ministry.json
+        fields:
+          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
+          - { label: Hero heading, name: heroTitle, widget: string }
+          - { label: Hero introduction, name: heroIntro, widget: text }
+          - { label: Heart eyebrow, name: heartEyebrow, widget: string }
+          - { label: Heart heading, name: heartTitle, widget: string }
+          - { label: Heart lead, name: heartLead, widget: text }
+          - { label: Heart detail, name: heartBody, widget: text }
+          - { label: Events eyebrow, name: eventsEyebrow, widget: string }
+          - { label: Events heading, name: eventsTitle, widget: string }
+          - { label: Expectations eyebrow, name: expectEyebrow, widget: string }
+          - { label: Expectations heading, name: expectTitle, widget: string }
+          - { label: Expectations introduction, name: expectIntro, widget: text }
+          - { label: Callout eyebrow, name: calloutEyebrow, widget: string }
+          - { label: Callout heading, name: calloutTitle, widget: string }
+
+      - name: music
+        label: Music page
+        file: src/content/pages/music.json
+        fields:
+          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
+          - { label: Hero heading, name: heroTitle, widget: string }
+          - { label: Hero introduction, name: heroIntro, widget: text }
+          - { label: Listening note eyebrow, name: noteEyebrow, widget: string }
+          - { label: Listening note, name: noteBody, widget: text }
+
+      - name: booking
+        label: Booking page
+        file: src/content/pages/booking.json
+        fields:
+          - { label: Hero eyebrow, name: heroEyebrow, widget: string }
+          - { label: Hero heading, name: heroTitle, widget: string }
+          - { label: Hero introduction, name: heroIntro, widget: text }
+          - { label: Details eyebrow, name: detailsEyebrow, widget: string }
+          - { label: Details heading, name: detailsTitle, widget: string }
+          - { label: Details introduction, name: detailsBody, widget: text }
+          - { label: Contact note, name: contactNote, widget: text }
+
+  - name: songs
+    label: Songs
+    label_singular: Song
+    folder: src/content/songs
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}} — {{summary}}"
+    sortable_fields: [title, order]
+    fields:
+      - label: Song title
+        name: title
+        widget: string
+      - label: Short summary
+        name: summary
+        widget: text
+        hint: Used on song lists and as the page's search description.
+      - label: Scripture reference
+        name: scripture
+        widget: string
+        required: false
+        hint: For example, Jeremiah 20:9.
+      - label: Display order
+        name: order
+        widget: number
+        value_type: int
+        min: 1
+      - label: Listening URL
+        name: listenUrl
+        widget: string
+        required: false
+        hint: Full link to the preferred streaming or purchase page.
+      - label: Story behind the song
+        name: body
+        widget: markdown

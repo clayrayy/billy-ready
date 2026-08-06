@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import PageHero from "../components/PageHero.astro";
+import music from "../content/pages/music.json";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const songs = (await getCollection("songs")).sort((a, b) => a.data.order - b.data.order);
@@ -11,9 +12,9 @@ const songs = (await getCollection("songs")).sort((a, b) => a.data.order - b.dat
   description="Listen to and discover the stories behind Billy Ready’s Christ-centered songs about faith, perseverance, redemption, and hope."
 >
   <PageHero
-    eyebrow="The music"
-    title="Songs for the road you’re walking."
-    intro="Songs shaped by Scripture, honest experience, and the faithfulness of God in every season."
+    eyebrow={music.heroEyebrow}
+    title={music.heroTitle}
+    intro={music.heroIntro}
   />
   <section class="section page-shell">
     <ol class="song-list song-list--page reveal">
@@ -30,8 +31,8 @@ const songs = (await getCollection("songs")).sort((a, b) => a.data.order - b.dat
       ))}
     </ol>
     <div class="coming-note reveal">
-      <p class="eyebrow">Listening links</p>
-      <p>Streaming and purchase links will appear here as soon as Billy’s preferred music platforms are connected.</p>
+      <p class="eyebrow">{music.noteEyebrow}</p>
+      <p>{music.noteBody}</p>
     </div>
   </section>
 </BaseLayout>

@@ -1,5 +1,6 @@
 ---
 import PageHero from "../components/PageHero.astro";
+import booking from "../content/pages/booking.json";
 import { ministryEvents, site } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
@@ -9,23 +10,23 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="Request Billy Ready for a church concert, worship service, retreat, revival, conference, or Christ-centered special event."
 >
   <PageHero
-    eyebrow="Invite Billy"
-    title="Let’s share the hope of Christ together."
-    intro="Tell us a little about your church or event. A booking request starts a conversation—it does not create an obligation."
+    eyebrow={booking.heroEyebrow}
+    title={booking.heroTitle}
+    intro={booking.heroIntro}
   />
 
   <section class="section page-shell booking-layout">
     <div class="booking-details reveal">
-      <p class="eyebrow">Start here</p>
-      <h2>We’d be honored to hear from you.</h2>
+      <p class="eyebrow">{booking.detailsEyebrow}</p>
+      <h2>{booking.detailsTitle}</h2>
       <p>
-        Whether you are planning a worship service, revival, retreat, conference, Christmas celebration, or community outreach, it would be a privilege to partner with you.
+        {booking.detailsBody}
       </p>
       <div class="direct-contact">
         <span>Prefer to call?</span>
         <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
       </div>
-      <p class="contact-note">Phone is currently the quickest direct way to reach Billy Ready Music.</p>
+      <p class="contact-note">{booking.contactNote}</p>
     </div>
 
     <form

@@ -10,7 +10,7 @@ A fast, content-first website for Billy Ready’s Christ-centered music and mini
 - **Domain/DNS:** Purchase the final domain from a registrar you control, then point it to Netlify. Keep the domain account separate from the hosting account so it is easy to move later.
 - **Email:** Use a real domain mailbox such as `hello@yourdomain.com` through Google Workspace, Fastmail, or Zoho Mail. The source notes only included `readysong1025`, so no email address is published yet.
 - **Analytics:** Start with Google Search Console. Add privacy-friendly analytics only if Billy will actually use the data.
-- **CMS:** None at launch. Markdown is simpler and faster. Add a headless CMS only if Billy needs to edit the site himself regularly.
+- **CMS:** Decap CMS. Billy can edit page copy, site details, ministry lists, and song stories at `/admin/`; changes remain versioned in GitHub and trigger a fresh static deployment.
 
 This keeps the first version inexpensive and low-maintenance while leaving room for a CMS, email platform, or server-rendered features later.
 
@@ -51,13 +51,27 @@ The forms are visible locally, but submissions are processed only after a Netlif
 
 ## Content editing
 
+The hosted content manager is available at `/admin/`. It uses Decap CMS's GitHub backend rather than the deprecated Netlify Git Gateway.
+
+One-time authentication setup:
+
+1. In GitHub, register an OAuth application under **Settings → Developer settings → OAuth Apps**.
+2. Set the homepage URL to the site's `https://...netlify.app` address.
+3. Set the authorization callback URL to `https://api.netlify.com/auth/done`.
+4. Copy the OAuth application's Client ID and generate a Client Secret.
+5. In Netlify, open **Project configuration → Access & security → OAuth**.
+6. Install the GitHub provider and enter the Client ID and Client Secret.
+7. Give each editor write access to `clayrayy/billy-ready` on GitHub, then have them sign in at `/admin/`.
+
+For direct publishing by multiple GitHub users on Netlify's Free plan, keep this website repository public. Never commit OAuth secrets or other credentials to the repository; the GitHub Client Secret belongs only in Netlify's OAuth settings.
+
 Song stories live in `src/content/songs`. To add a streaming link, add a `listenUrl` value to a song’s frontmatter:
 
 ```yaml
 listenUrl: https://example.com/song
 ```
 
-Site-wide contact details and lists live in `src/data/site.ts`. Add the confirmed email address and social profiles there.
+Page copy lives in `src/content/pages`, while site-wide contact details, social profiles, and ministry lists live in `src/content/settings/site.json`. Both are editable from the CMS.
 
 ## SEO included
 
@@ -93,6 +107,9 @@ Site-wide contact details and lists live in `src/data/site.ts`. Add the confirme
 - `src/styles/global.css` — complete visual system and responsive layout
 - `src/content.config.ts` — typed song content schema
 - `src/content/songs/` — editable song stories
+- `src/content/pages/` — CMS-managed page copy
+- `src/content/settings/site.json` — CMS-managed contact and ministry settings
+- `public/admin/` — Decap CMS interface and field configuration
 - `src/pages/book.astro` — Netlify booking form
 - `astro.config.mjs` — canonical site URL and sitemap configuration
 - `netlify.toml` — hosting build and security headers

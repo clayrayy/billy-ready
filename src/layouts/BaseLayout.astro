@@ -115,6 +115,9 @@ const schemas = [...baseSchema, ...(schema ? (Array.isArray(schema) ? schema : [
           <p class="eyebrow">Start a conversation</p>
           <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
           {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
+          {site.socialLinks.map((social) => (
+            <a href={social.href} target="_blank" rel="noopener noreferrer">{social.label}</a>
+          ))}
         </div>
       </div>
       <div class="footer-bottom page-shell">

@@ -9,7 +9,7 @@ const songs = defineCollection({
     summary: z.string(),
     scripture: z.string().optional(),
     order: z.number(),
-    listenUrl: z.url().optional(),
+    listenUrl: z.preprocess((value) => value || undefined, z.url().optional()),
   }),
 });
 
