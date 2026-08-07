@@ -162,11 +162,12 @@ collections:
                 widget: object
                 required: false
                 collapsed: true
-                fields: &action_fields
-                  - { label: Button text, name: label, widget: string }
+                fields: &optional_action_fields
+                  - { label: Button text, name: label, widget: string, required: false }
                   - label: Link
                     name: href
                     widget: string
+                    required: false
                     hint: Use a site path such as /music or a complete https:// URL.
                     pattern: ['^(\/|https://)', 'Use a site path beginning with / or a complete https:// URL.']
               - label: Secondary link
@@ -174,7 +175,7 @@ collections:
                 widget: object
                 required: false
                 collapsed: true
-                fields: *action_fields
+                fields: *optional_action_fields
           - label: Page sections
             name: sections
             widget: list
@@ -260,7 +261,7 @@ collections:
                     widget: object
                     required: false
                     collapsed: true
-                    fields: *action_fields
+                    fields: *optional_action_fields
                   - { label: Color theme, name: theme, widget: select, default: cream, options: *theme_options }
 
               - label: Large quote
@@ -321,7 +322,7 @@ collections:
                     widget: object
                     required: false
                     collapsed: true
-                    fields: *action_fields
+                    fields: *optional_action_fields
                   - { label: Color theme, name: theme, widget: select, default: paper, options: *theme_options }
 
               - label: Feature list
@@ -359,7 +360,7 @@ collections:
                     widget: object
                     required: false
                     collapsed: true
-                    fields: *action_fields
+                    fields: *optional_action_fields
                   - { label: Color theme, name: theme, widget: select, default: cream, options: *theme_options }
 
               - label: Roles or credentials
@@ -386,7 +387,7 @@ collections:
                     widget: object
                     required: false
                     collapsed: true
-                    fields: *action_fields
+                    fields: *optional_action_fields
                   - { label: Color theme, name: theme, widget: select, default: dark, options: *theme_options }
 
               - label: Editorial statement
@@ -416,13 +417,19 @@ collections:
                   - label: Primary button
                     name: primaryAction
                     widget: object
-                    fields: *action_fields
+                    fields:
+                      - { label: Button text, name: label, widget: string }
+                      - label: Link
+                        name: href
+                        widget: string
+                        hint: Use a site path such as /music or a complete https:// URL.
+                        pattern: ['^(\/|https://)', 'Use a site path beginning with / or a complete https:// URL.']
                   - label: Secondary link
                     name: secondaryAction
                     widget: object
                     required: false
                     collapsed: true
-                    fields: *action_fields
+                    fields: *optional_action_fields
                   - { label: Color theme, name: theme, widget: select, default: gold, options: *theme_options }
 
               - label: Newsletter signup
@@ -483,7 +490,7 @@ collections:
                     widget: object
                     required: false
                     collapsed: true
-                    fields: *action_fields
+                    fields: *optional_action_fields
 
       - name: about
         label: About page
@@ -528,8 +535,8 @@ collections:
                   - { label: Left, value: left }
                   - { label: Center, value: center }
                   - { label: Right, value: right }
-              - { label: Primary button, name: primaryAction, widget: object, required: false, collapsed: true, fields: *action_fields }
-              - { label: Secondary link, name: secondaryAction, widget: object, required: false, collapsed: true, fields: *action_fields }
+              - { label: Primary button, name: primaryAction, widget: object, required: false, collapsed: true, fields: *optional_action_fields }
+              - { label: Secondary link, name: secondaryAction, widget: object, required: false, collapsed: true, fields: *optional_action_fields }
           - { label: Page sections, label_singular: Section, name: sections, widget: list, allow_reorder: true, collapsed: true, minimize_collapsed: true, summary: "{{fields.eyebrow}} — {{fields.heading}}", hint: "Add, reorder, or remove designed sections. The preview updates as you work.", types: *page_section_types }
 
       - name: ministry

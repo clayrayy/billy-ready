@@ -7,6 +7,16 @@ const action = z.object({
   label: z.string().min(1),
   href: link,
 });
+const optionalAction = z.preprocess((value) => {
+  if (value == null) return undefined;
+  if (typeof value !== "object" || Array.isArray(value)) return value;
+
+  const candidate = value as Record<string, unknown>;
+  const labelIsEmpty = typeof candidate.label !== "string" || candidate.label.trim() === "";
+  const hrefIsEmpty = typeof candidate.href !== "string" || candidate.href.trim() === "";
+
+  return labelIsEmpty && hrefIsEmpty ? undefined : value;
+}, action.optional());
 const common = {
   eyebrow: z.string().optional(),
   heading: z.string().optional(),
@@ -30,7 +40,7 @@ const sections = z.discriminatedUnion("type", [
     imageCaption: z.string().optional(),
     imagePosition: z.enum(["left", "right"]).optional(),
     imageFit: z.enum(["cover", "contain"]).optional(),
-    action: action.optional(),
+    action: optionalAction,
   }),
   z.object({
     type: z.literal("quote"),
@@ -55,7 +65,7 @@ const sections = z.discriminatedUnion("type", [
     intro: z.string().optional(),
     limit: z.number().int().nonnegative().optional(),
     showScripture: z.boolean().optional(),
-    action: action.optional(),
+    action: optionalAction,
   }),
   z.object({
     type: z.literal("featureList"),
@@ -64,7 +74,7 @@ const sections = z.discriminatedUnion("type", [
     source: z.enum(["ministryEvents", "ministryIncludes", "custom"]).default("custom"),
     items: z.array(z.string().min(1)).optional(),
     style: z.enum(["numbered", "checks", "plain"]).optional(),
-    action: action.optional(),
+    action: optionalAction,
   }).refine((section) => section.source !== "custom" || Boolean(section.items?.length), {
     message: "A custom feature list needs at least one item.",
     path: ["items"],
@@ -74,7 +84,7 @@ const sections = z.discriminatedUnion("type", [
     ...common,
     roles: z.array(z.string().min(1)).min(1),
     body: z.string().optional(),
-    action: action.optional(),
+    action: optionalAction,
   }),
   z.object({
     type: z.literal("statement"),
@@ -86,7 +96,7 @@ const sections = z.discriminatedUnion("type", [
     ...common,
     body: z.string().optional(),
     primaryAction: action,
-    secondaryAction: action.optional(),
+    secondaryAction: optionalAction,
   }),
   z.object({
     type: z.literal("newsletter"),
@@ -109,7 +119,7 @@ const sections = z.discriminatedUnion("type", [
     imagePosition: z.enum(["left", "center", "right"]).optional(),
     height: z.enum(["short", "medium", "tall"]).optional(),
     body: z.string().optional(),
-    action: action.optional(),
+    action: optionalAction,
   }),
 ]);
 
@@ -133,8 +143,8 @@ const editablePageSchema = z.object({
     image: z.string().optional(),
     imageAlt: z.string().optional(),
     imagePosition: z.enum(["left", "center", "right"]).optional(),
-    primaryAction: action.optional(),
-    secondaryAction: action.optional(),
+    primaryAction: optionalAction,
+    secondaryAction: optionalAction,
   }).refine((hero) => hero.style !== "image" || Boolean(hero.image && hero.imageAlt), {
     message: "An image-style hero needs both an image and an image description.",
     path: ["image"],
