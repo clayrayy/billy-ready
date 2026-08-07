@@ -19,6 +19,10 @@
       history: document.getElementById("release-history"),
       historyClose: document.getElementById("release-history-close"),
       historyContent: document.getElementById("release-history-content"),
+      restoreConfirmation: document.getElementById("restore-confirmation"),
+      restoreReleaseTitle: document.getElementById("restore-release-title"),
+      restoreContinue: document.getElementById("restore-continue"),
+      restoreCancel: document.getElementById("restore-cancel"),
     };
   }
 
@@ -60,13 +64,21 @@
         live.textContent = "Live";
         item.appendChild(live);
       } else {
-        var restore = document.createElement("a");
+        var restore = document.createElement("button");
+        var undo = document.createElement("span");
+        var restoreLabel = document.createElement("span");
+
         restore.className = "release-history__action";
-        restore.href = netlifyDeployUrl + encodeURIComponent(deploy.id);
-        restore.target = "_blank";
-        restore.rel = "noopener noreferrer";
-        restore.textContent = "Restore…";
-        restore.title = "Open this release in Netlify, then select Publish deploy";
+        restore.type = "button";
+        restore.dataset.restoreUrl = netlifyDeployUrl + encodeURIComponent(deploy.id);
+        restore.dataset.releaseTitle = releaseTitle(deploy);
+        restore.title = "Review this rollback in Netlify";
+        undo.className = "release-history__undo";
+        undo.setAttribute("aria-hidden", "true");
+        undo.textContent = "↶";
+        restoreLabel.textContent = "Restore";
+        restore.appendChild(undo);
+        restore.appendChild(restoreLabel);
         item.appendChild(restore);
       }
 
@@ -112,6 +124,12 @@
     control.history.hidden = !open;
     control.historyToggle.setAttribute("aria-expanded", String(open));
     if (open) loadReleaseHistory(control);
+  }
+
+  function openRestoreConfirmation(control, trigger) {
+    control.restoreReleaseTitle.textContent = trigger.dataset.releaseTitle;
+    control.restoreContinue.href = trigger.dataset.restoreUrl;
+    control.restoreConfirmation.showModal();
   }
 
   function showRelease(control) {
@@ -165,6 +183,19 @@
     control.historyClose.addEventListener("click", function () {
       setHistoryOpen(control, false);
       control.historyToggle.focus();
+    });
+    control.historyContent.addEventListener("click", function (event) {
+      var trigger = event.target.closest("[data-restore-url]");
+      if (trigger) openRestoreConfirmation(control, trigger);
+    });
+    control.restoreCancel.addEventListener("click", function () {
+      control.restoreConfirmation.close();
+    });
+    control.restoreContinue.addEventListener("click", function () {
+      control.restoreConfirmation.close();
+    });
+    control.restoreConfirmation.addEventListener("click", function (event) {
+      if (event.target === control.restoreConfirmation) control.restoreConfirmation.close();
     });
 
     window.addEventListener("focus", checkReleaseStatus);

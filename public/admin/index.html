@@ -21,7 +21,7 @@
       <div class="release-dock__actions">
         <button
           id="release-history-toggle"
-          class="release-dock__link"
+          class="release-dock__link release-dock__link--history"
           type="button"
           aria-expanded="false"
           aria-controls="release-history"
@@ -52,8 +52,27 @@
         <div id="release-history-content" class="release-history__content">
           <p>Loading releases…</p>
         </div>
-        <p class="release-history__note">A restored version stays live until the next production release.</p>
+        <p class="release-history__note">Newer releases are never deleted. A restored version stays live until the next production release.</p>
       </section>
+      <dialog id="restore-confirmation" class="restore-confirmation" aria-labelledby="restore-confirmation-title">
+        <div class="restore-confirmation__icon" aria-hidden="true">↶</div>
+        <div>
+          <p class="restore-confirmation__eyebrow">Restore previous release</p>
+          <h2 id="restore-confirmation-title">Review this rollback in Netlify?</h2>
+          <p><strong id="restore-release-title"></strong> will become the selected version.</p>
+          <p>This will not delete any newer releases. Nothing changes live until you confirm <strong>Publish deploy</strong> in Netlify.</p>
+        </div>
+        <div class="restore-confirmation__actions">
+          <button id="restore-cancel" class="restore-confirmation__cancel" type="button">Cancel</button>
+          <a
+            id="restore-continue"
+            class="restore-confirmation__continue"
+            href="https://app.netlify.com/projects/billy-ready/deploys"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Continue to Netlify</a>
+        </div>
+      </dialog>
     </aside>
   </body>
 </html>

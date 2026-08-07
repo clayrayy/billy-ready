@@ -41,6 +41,7 @@
 }
 
 .release-dock__link {
+  appearance: none;
   display: inline-flex;
   min-height: 34px;
   align-items: center;
@@ -48,6 +49,7 @@
   padding: 0 12px;
   border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 4px;
+  background: transparent;
   color: #fffdf7;
   cursor: pointer;
   font: inherit;
@@ -70,6 +72,20 @@
   border-color: #e0bc70;
   background: #e0bc70;
   color: #17140f;
+}
+
+.release-dock__link--history {
+  border-color: #8d8068;
+  background: #302a21;
+  color: #fffdf7;
+}
+
+.release-dock__link--history:hover,
+.release-dock__link--history:focus-visible,
+.release-dock__link--history[aria-expanded="true"] {
+  border-color: #e0bc70;
+  background: #443a2c;
+  color: #fffdf7;
 }
 
 .release-dock__link--primary:hover,
@@ -181,19 +197,32 @@
 }
 
 .release-history__action {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   grid-column: 2;
   grid-row: 1 / span 2;
   align-self: center;
+  padding: 5px 0;
+  border: 0;
+  background: transparent;
   color: #e0bc70;
+  cursor: pointer;
+  font: inherit;
   font-weight: 700;
-  text-decoration: none;
 }
 
 .release-history__action:hover,
 .release-history__action:focus-visible {
   color: #f0d08c;
   outline: none;
-  text-decoration: underline;
+}
+
+.release-history__undo {
+  font-size: 18px;
+  line-height: 1;
+  transform: translateY(-1px);
 }
 
 .release-history__live {
@@ -215,6 +244,108 @@
   padding: 11px 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 11px;
+}
+
+.restore-confirmation {
+  width: min(460px, calc(100vw - 32px));
+  padding: 22px;
+  border: 1px solid #6d624e;
+  border-radius: 10px;
+  background: #17140f;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+  color: #fffdf7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.restore-confirmation::backdrop {
+  background: rgba(15, 13, 10, 0.68);
+  backdrop-filter: blur(3px);
+}
+
+.restore-confirmation__icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 14px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(224, 188, 112, 0.14);
+  color: #e0bc70;
+  font-size: 27px;
+}
+
+.restore-confirmation__eyebrow {
+  margin: 0 0 5px;
+  color: #e0bc70;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.restore-confirmation h2 {
+  margin: 0 0 12px;
+  color: #fffdf7;
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.restore-confirmation p:not(.restore-confirmation__eyebrow) {
+  margin: 8px 0 0;
+  color: rgba(255, 253, 247, 0.72);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.restore-confirmation p strong {
+  color: #fffdf7;
+}
+
+.restore-confirmation__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.restore-confirmation__cancel,
+.restore-confirmation__continue {
+  appearance: none;
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.restore-confirmation__cancel {
+  border: 1px solid #8d8068;
+  background: transparent;
+  color: #fffdf7;
+}
+
+.restore-confirmation__continue {
+  border: 1px solid #e0bc70;
+  background: #e0bc70;
+  color: #17140f;
+}
+
+.restore-confirmation__cancel:hover,
+.restore-confirmation__cancel:focus-visible {
+  border-color: #fffdf7;
+  outline: none;
+}
+
+.restore-confirmation__continue:hover,
+.restore-confirmation__continue:focus-visible {
+  background: #f0d08c;
+  outline: none;
 }
 
 @media (max-width: 620px) {
