@@ -156,6 +156,22 @@ h2 {
   background: var(--ink);
 }
 
+.br-page-hero--builder {
+  display: grid;
+  grid-template-columns: minmax(0, 0.35fr) minmax(0, 1.65fr);
+  gap: clamp(28px, 7vw, 88px);
+}
+
+.br-page-hero--builder > .br-eyebrow {
+  grid-column: 1;
+}
+
+.br-page-hero--builder > h1,
+.br-page-hero--builder > .br-hero-intro,
+.br-page-hero--builder > .br-actions {
+  grid-column: 2;
+}
+
 .br-page-hero .br-eyebrow,
 .br-song-hero .br-eyebrow,
 .br-dark .br-eyebrow,
@@ -748,6 +764,17 @@ h2 {
 
   .br-home-hero {
     min-height: 560px;
+  }
+
+  .br-page-hero--builder {
+    grid-template-columns: 1fr;
+  }
+
+  .br-page-hero--builder > .br-eyebrow,
+  .br-page-hero--builder > h1,
+  .br-page-hero--builder > .br-hero-intro,
+  .br-page-hero--builder > .br-actions {
+    grid-column: 1;
   }
 
   .br-two-column,
