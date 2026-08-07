@@ -135,7 +135,7 @@
     return h(
       "section",
       {
-        className: "br-page-hero br-page-hero--builder " + (style === "image" && field(hero, "image") ? "br-page-hero--image" : ""),
+        className: "br-page-hero br-page-hero--builder " + (!eyebrowText ? "br-page-hero--centered " : "") + (style === "image" && field(hero, "image") ? "br-page-hero--image" : ""),
         style: style === "image" && field(hero, "image") ? { backgroundImage: 'linear-gradient(90deg, rgba(9,8,6,.9), rgba(9,8,6,.35)), url("' + image + '")' } : {},
       },
       eyebrow(eyebrowText),

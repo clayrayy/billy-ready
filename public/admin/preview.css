@@ -172,6 +172,23 @@ h2 {
   grid-column: 2;
 }
 
+.br-page-hero--builder.br-page-hero--centered {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  text-align: center;
+}
+
+.br-page-hero--centered > h1,
+.br-page-hero--centered > .br-hero-intro,
+.br-page-hero--centered > .br-actions {
+  grid-column: 1;
+  margin-inline: auto;
+}
+
+.br-page-hero--centered > .br-actions {
+  justify-content: center;
+}
+
 .br-page-hero .br-eyebrow,
 .br-song-hero .br-eyebrow,
 .br-dark .br-eyebrow,
