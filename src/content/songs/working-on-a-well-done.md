@@ -2,6 +2,7 @@
 title: Working On A Well Done
 summary: A song about perseverance, faith, and finishing well through life’s greatest storms.
 order: 2
+listenUrl: /audio/working-on-a-well-done.mp3
 ---
 
 This song was written during one of life’s storms. In the middle of that season, God placed a simple reminder on my heart:

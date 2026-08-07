@@ -301,6 +301,29 @@
   align-items: end;
 }
 
+.builder-roles__layout--with-image {
+  grid-template-columns: minmax(0, 1.1fr) minmax(220px, 0.45fr) minmax(260px, 0.55fr);
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.builder-roles__portrait {
+  width: 100%;
+  max-width: 360px;
+  margin: 0;
+  justify-self: center;
+}
+
+.builder-roles__portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border: 1px solid rgba(185, 140, 69, 0.28);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .builder-roles__names {
   display: flex;
   margin: 0;
@@ -487,6 +510,17 @@
 
 .home-hero .hero-tagline {
   white-space: pre-line;
+}
+
+@media (max-width: 1120px) {
+  .builder-roles__layout--with-image {
+    grid-template-columns: minmax(220px, 0.6fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .builder-roles__layout--with-image .builder-roles__identity {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 980px) {

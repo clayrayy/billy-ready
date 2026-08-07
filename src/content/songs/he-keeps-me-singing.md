@@ -3,6 +3,7 @@ title: He Keeps Me Singing
 summary: A reminder that God’s calling is stronger than our discouragement and His message cannot be kept silent.
 scripture: Jeremiah 20:9
 order: 1
+listenUrl: /audio/he-keeps-me-singing.mp3
 ---
 
 Some songs are born out of celebration. Others come through disappointment, unanswered prayers, and the quiet moments when God whispers, “Keep going.”

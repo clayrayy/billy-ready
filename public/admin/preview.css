@@ -387,6 +387,12 @@ h2 {
   border-top: 1px solid var(--line);
 }
 
+.br-song-audio {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+}
+
 .br-prose {
   font-family: var(--serif);
   font-size: clamp(19px, 2vw, 26px);
@@ -691,6 +697,28 @@ h2 {
 
 .br-roles-grid {
   align-items: end;
+}
+
+.br-roles-grid--with-image {
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.42fr) minmax(200px, 0.58fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: center;
+}
+
+.br-role-portrait {
+  width: 100%;
+  max-width: 320px;
+  margin: 0;
+  justify-self: center;
+}
+
+.br-role-portrait img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(185, 140, 69, 0.28);
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .br-roles {

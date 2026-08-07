@@ -1170,6 +1170,31 @@ h2 {
   margin-top: 2rem;
 }
 
+.song-player {
+  margin-top: 1rem;
+}
+
+.song-player__audio {
+  display: block;
+  width: 100%;
+}
+
+.song-player__download {
+  display: inline-block;
+  margin-top: 0.85rem;
+  color: var(--gold-light);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25rem;
+}
+
+.song-player__download:hover {
+  color: var(--paper);
+}
+
 .prose {
   max-width: 760px;
 }

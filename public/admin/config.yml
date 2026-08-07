@@ -375,6 +375,16 @@ collections:
                     widget: list
                     min: 1
                     field: { label: Role, name: role, widget: string }
+                  - label: Portrait (optional)
+                    name: image
+                    widget: image
+                    required: false
+                    choose_url: false
+                    hint: A square portrait works best. Upload WebP or JPEG under 2 MB.
+                    media_library:
+                      config:
+                        max_file_size: 2097152
+                  - { label: Portrait description, name: imageAlt, widget: string, required: false, hint: Describe who is pictured for people who cannot see the image. }
                   - label: Supporting content
                     name: body
                     widget: markdown
@@ -604,12 +614,12 @@ collections:
         value_type: int
         min: 1
         hint: Lower numbers appear first. Give each song a unique number.
-      - label: Listening URL
+      - label: Listening link or audio path
         name: listenUrl
         widget: string
         required: false
-        hint: Full link to the preferred streaming or purchase page.
-        pattern: ['^https://', 'Use a complete secure URL beginning with https://']
+        hint: Use a hosted audio path such as /audio/song-name.mp3, or a full streaming or purchase link.
+        pattern: ['^(https://|/)', 'Begin with / for a hosted audio file or https:// for an external link']
       - label: Story behind the song
         name: body
         widget: markdown

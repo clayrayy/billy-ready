@@ -83,6 +83,8 @@ const sections = z.discriminatedUnion("type", [
     type: z.literal("roles"),
     ...common,
     roles: z.array(z.string().min(1)).min(1),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
     body: z.string().optional(),
     action: optionalAction,
   }),

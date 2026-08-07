@@ -13,6 +13,11 @@ interface Props {
 
 const { song } = Astro.props;
 const { Content } = await render(song);
+const listeningUrl = song.data.listenUrl;
+const isHostedAudio = Boolean(
+  listeningUrl?.startsWith("/") && /\.(mp3|m4a|aac|ogg|wav)(?:[?#].*)?$/i.test(listeningUrl),
+);
+const audioType = listeningUrl?.toLowerCase().includes(".mp3") ? "audio/mpeg" : undefined;
 const schema = {
   "@context": "https://schema.org",
   "@type": "MusicRecording",
@@ -23,6 +28,15 @@ const schema = {
     "@type": "Person",
     name: "Billy Ready",
   },
+  ...(isHostedAudio && listeningUrl
+    ? {
+        audio: {
+          "@type": "AudioObject",
+          contentUrl: new URL(listeningUrl, Astro.site).href,
+          encodingFormat: audioType,
+        },
+      }
+    : {}),
 };
 ---
 
@@ -38,9 +52,17 @@ const schema = {
     <div class="song-story__body page-shell reveal">
       <div class="prose"><Content /></div>
       <aside>
-        <p class="eyebrow">{song.data.listenUrl ? "Listen" : "Release details"}</p>
-        {song.data.listenUrl ? (
-          <a class="button button--dark" href={song.data.listenUrl} target="_blank" rel="noopener">Play this song</a>
+        <p class="eyebrow">{listeningUrl ? "Listen" : "Release details"}</p>
+        {isHostedAudio && listeningUrl ? (
+          <div class="song-player">
+            <audio class="song-player__audio" controls preload="metadata">
+              <source src={listeningUrl} type={audioType} />
+              Your browser cannot play this audio. <a href={listeningUrl}>Download the MP3</a> instead.
+            </audio>
+            <a class="song-player__download" href={listeningUrl} download>Download MP3</a>
+          </div>
+        ) : listeningUrl ? (
+          <a class="button button--dark" href={listeningUrl} target="_blank" rel="noopener">Play this song</a>
         ) : (
           <p>Streaming and purchase information will be added when the release link is confirmed.</p>
         )}

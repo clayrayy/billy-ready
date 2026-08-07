@@ -6,3 +6,6 @@ dist/
 .env
 .DS_Store
 *.log
+
+# Keep uncompressed audio masters locally; deploy the compressed copies in /public/audio.
+/public/songs/*.wav

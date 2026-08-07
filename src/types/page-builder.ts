@@ -90,6 +90,8 @@ export interface FeatureListSection extends SectionBase {
 export interface RolesSection extends SectionBase {
   type: "roles";
   roles: string[];
+  image?: string;
+  imageAlt?: string;
   body?: string;
   action?: PageAction;
 }

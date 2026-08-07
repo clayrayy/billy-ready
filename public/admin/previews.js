@@ -271,13 +271,15 @@
     }
 
     if (type === "roles") {
+      var roleImage = assetUrl(getAsset, field(section, "image"));
       return h(
         "section",
         baseProps,
         h(
           "div",
-          { className: "br-builder-grid br-roles-grid" },
+          { className: "br-builder-grid br-roles-grid" + (roleImage ? " br-roles-grid--with-image" : "") },
           h("div", {}, eyebrow(field(section, "eyebrow")), h("p", { className: "br-roles" }, arrayField(section, "roles").map(function (role, roleIndex) { return h("span", { key: roleIndex }, role); }))),
+          roleImage ? h("figure", { className: "br-role-portrait" }, h("img", { src: roleImage, alt: field(section, "imageAlt") })) : null,
           h("div", { className: "br-body" }, body || h("p", {}, field(section, "body")), actionLink(action, light)),
         ),
       );
@@ -376,9 +378,11 @@
   var SongPreview = createClass({
     render: function () {
       var entry = this.props.entry;
+      var listenUrl = entryValue(entry, "listenUrl");
+      var isHostedAudio = listenUrl && listenUrl.charAt(0) === "/" && /\.(mp3|m4a|aac|ogg|wav)(?:[?#].*)?$/i.test(listenUrl);
       return frame("/songs/…", [
         h("header", { className: "br-song-hero" }, eyebrow("Behind the song"), h("h1", {}, entryValue(entry, "title")), h("p", { className: "br-hero-intro" }, entryValue(entry, "summary")), entryValue(entry, "scripture") ? h("p", { className: "br-scripture" }, "Inspired by ", entryValue(entry, "scripture")) : null),
-        h("section", { className: "br-section br-song-body" }, h("div", { className: "br-prose" }, this.props.widgetFor("body")), h("aside", {}, eyebrow(entryValue(entry, "listenUrl") ? "Listen" : "Release details"), h("p", {}, entryValue(entry, "listenUrl", "Add a listening URL when the release is ready.")))),
+        h("section", { className: "br-section br-song-body" }, h("div", { className: "br-prose" }, this.props.widgetFor("body")), h("aside", {}, eyebrow(listenUrl ? "Listen" : "Release details"), isHostedAudio ? h("audio", { className: "br-song-audio", controls: true, preload: "metadata", src: listenUrl }) : h("p", {}, listenUrl || "Add a listening link when the release is ready."))),
       ]);
     },
   });
