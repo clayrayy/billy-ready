@@ -148,10 +148,11 @@ collections:
                   config:
                     max_file_size: 2097152
                 hint: Leave empty to retain the original guitar image. Upload WebP or JPEG under 2 MB.
-              - { label: Image description, name: imageAlt, widget: string, hint: Briefly describe the image for accessibility. }
+              - { label: Image description, name: imageAlt, widget: string, required: false, hint: Optional. Describe a custom image when it adds information not already conveyed by the hero text. }
               - label: Image focus
                 name: imagePosition
                 widget: select
+                required: false
                 default: center
                 options:
                   - { label: Left, value: left }
@@ -530,6 +531,7 @@ collections:
               - label: Image focus
                 name: imagePosition
                 widget: select
+                required: false
                 default: center
                 options:
                   - { label: Left, value: left }
