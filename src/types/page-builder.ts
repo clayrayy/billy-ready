@@ -14,7 +14,7 @@ export interface PageAction {
 
 export interface PageHeroData {
   style: "home" | "standard" | "image";
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   accent?: string;
   subheading?: string;

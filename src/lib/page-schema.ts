@@ -135,7 +135,7 @@ const editablePageSchema = z.object({
   }),
   hero: z.object({
     style: z.enum(["home", "standard", "image"]),
-    eyebrow: z.string().min(1),
+    eyebrow: z.string().optional(),
     title: z.string().min(1),
     accent: z.string().optional(),
     subheading: z.string().optional(),

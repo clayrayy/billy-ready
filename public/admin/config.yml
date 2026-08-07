@@ -134,7 +134,7 @@ collections:
             summary: "Hero — {{fields.title}}"
             fields:
               - { label: Style, name: style, widget: hidden, default: home }
-              - { label: Small label, name: eyebrow, widget: string }
+              - { label: Small label, name: eyebrow, widget: string, required: false }
               - { label: Main name, name: title, widget: string }
               - { label: Accent word, name: accent, widget: string, required: false, hint: Shown beneath the main name in gold italic type. }
               - { label: Tagline, name: subheading, widget: text, required: false, hint: Line breaks are preserved. }
@@ -513,7 +513,7 @@ collections:
                 options:
                   - { label: Simple dark hero, value: standard }
                   - { label: Hero with background image, value: image }
-              - { label: Small label, name: eyebrow, widget: string }
+              - { label: Small label, name: eyebrow, widget: string, required: false }
               - { label: Heading, name: title, widget: string }
               - { label: Accent phrase, name: accent, widget: string, required: false, hint: Optional gold italic phrase after the heading. }
               - { label: Introduction, name: intro, widget: text }
