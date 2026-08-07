@@ -6,6 +6,8 @@ Netlify production deployment.
 ## Edit and preview
 
 1. Open `/admin/` on the production site.
+   The staging and release controls remain hidden until GitHub authentication
+   succeeds.
 2. Edit a page and select **Publish**. This saves the change to the `staging`
    branch; it does not change the live site.
 3. Use **View staging** in the release dock to review the complete staged site

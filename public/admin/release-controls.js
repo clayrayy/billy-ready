@@ -8,11 +8,16 @@
   var refreshInterval = 120000;
   var historyCacheDuration = 300000;
   var refreshTimer;
+  var authObserver;
+  var authSyncFrame;
   var checking = false;
+  var releaseChecksStarted = false;
+  var authenticatedSessionConfirmed = false;
   var historyLoadedAt = 0;
 
   function controls() {
     return {
+      dock: document.getElementById("release-dock"),
       status: document.getElementById("release-status"),
       release: document.getElementById("release-site-link"),
       historyToggle: document.getElementById("release-history-toggle"),
@@ -24,6 +29,19 @@
       restoreContinue: document.getElementById("restore-continue"),
       restoreCancel: document.getElementById("restore-cancel"),
     };
+  }
+
+  function storedGitHubUser() {
+    try {
+      var user = JSON.parse(window.localStorage.getItem("decap-cms-user") || "null");
+      return user && user.backendName === "github" && typeof user.token === "string" && user.token.length > 0;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function cmsWorkspaceVisible() {
+    return Boolean(document.querySelector('a[href^="#/collections/"], a[href*="/admin/#/collections/"]'));
   }
 
   function releaseDate(value) {
@@ -126,6 +144,50 @@
     if (open) loadReleaseHistory(control);
   }
 
+  function startStatusChecks() {
+    if (releaseChecksStarted) return;
+    releaseChecksStarted = true;
+    checkReleaseStatus();
+    refreshTimer = window.setInterval(checkReleaseStatus, refreshInterval);
+  }
+
+  function stopStatusChecks(control) {
+    releaseChecksStarted = false;
+    checking = false;
+    window.clearInterval(refreshTimer);
+    refreshTimer = undefined;
+    setHistoryOpen(control, false);
+    if (control.restoreConfirmation.open) control.restoreConfirmation.close();
+    hideRelease(control, "Checking for staged changes…");
+  }
+
+  function syncAuthenticationState() {
+    var control = controls();
+    if (!control.dock) return;
+
+    var hasStoredUser = storedGitHubUser();
+    if (!hasStoredUser) authenticatedSessionConfirmed = false;
+    if (hasStoredUser && cmsWorkspaceVisible()) authenticatedSessionConfirmed = true;
+
+    var authenticated = hasStoredUser && authenticatedSessionConfirmed;
+
+    if (authenticated) {
+      if (control.dock.hidden) control.dock.hidden = false;
+      startStatusChecks();
+    } else {
+      if (!control.dock.hidden) control.dock.hidden = true;
+      if (releaseChecksStarted) stopStatusChecks(control);
+    }
+  }
+
+  function scheduleAuthenticationSync() {
+    if (authSyncFrame) return;
+    authSyncFrame = window.requestAnimationFrame(function () {
+      authSyncFrame = undefined;
+      syncAuthenticationState();
+    });
+  }
+
   function openRestoreConfirmation(control, trigger) {
     control.restoreReleaseTitle.textContent = trigger.dataset.releaseTitle;
     control.restoreContinue.href = trigger.dataset.restoreUrl;
@@ -174,8 +236,6 @@
 
   function startReleaseChecks() {
     var control = controls();
-    checkReleaseStatus();
-    refreshTimer = window.setInterval(checkReleaseStatus, refreshInterval);
 
     control.historyToggle.addEventListener("click", function () {
       setHistoryOpen(control, control.history.hidden);
@@ -198,19 +258,34 @@
       if (event.target === control.restoreConfirmation) control.restoreConfirmation.close();
     });
 
-    window.addEventListener("focus", checkReleaseStatus);
-    document.addEventListener("visibilitychange", function () {
-      if (!document.hidden) checkReleaseStatus();
+    window.addEventListener("focus", function () {
+      syncAuthenticationState();
+      if (!control.dock.hidden) checkReleaseStatus();
     });
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) {
+        syncAuthenticationState();
+        if (!control.dock.hidden) checkReleaseStatus();
+      }
+    });
+    window.addEventListener("storage", scheduleAuthenticationSync);
+
+    authObserver = new MutationObserver(scheduleAuthenticationSync);
+    authObserver.observe(document.body, { childList: true, subtree: true });
 
     if (window.CMS && typeof window.CMS.registerEventListener === "function") {
       window.CMS.registerEventListener({
         name: "postPublish",
         handler: function () {
-          window.setTimeout(checkReleaseStatus, 2500);
+          window.setTimeout(function () {
+            syncAuthenticationState();
+            if (!control.dock.hidden) checkReleaseStatus();
+          }, 2500);
         },
       });
     }
+
+    syncAuthenticationState();
   }
 
   if (document.readyState === "loading") {
@@ -221,5 +296,7 @@
 
   window.addEventListener("beforeunload", function () {
     window.clearInterval(refreshTimer);
+    if (authObserver) authObserver.disconnect();
+    if (authSyncFrame) window.cancelAnimationFrame(authSyncFrame);
   });
 })();
