@@ -18,6 +18,10 @@
   line-height: 1.3;
 }
 
+.release-dock[hidden] {
+  display: none;
+}
+
 .release-dock__status {
   display: grid;
   gap: 1px;
@@ -41,6 +45,7 @@
 }
 
 .release-dock__link {
+  appearance: none;
   display: inline-flex;
   min-height: 34px;
   align-items: center;
@@ -48,10 +53,17 @@
   padding: 0 12px;
   border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 4px;
+  background: transparent;
   color: #fffdf7;
+  cursor: pointer;
+  font: inherit;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
+}
+
+.release-dock__link[hidden] {
+  display: none;
 }
 
 .release-dock__link:hover,
@@ -66,9 +78,278 @@
   color: #17140f;
 }
 
+.release-dock__link--history {
+  border-color: #8d8068;
+  background: #302a21;
+  color: #fffdf7;
+}
+
+.release-dock__link--history:hover,
+.release-dock__link--history:focus-visible,
+.release-dock__link--history[aria-expanded="true"] {
+  border-color: #e0bc70;
+  background: #443a2c;
+  color: #fffdf7;
+}
+
 .release-dock__link--primary:hover,
 .release-dock__link--primary:focus-visible {
   background: #f0d08c;
+}
+
+.release-history {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: min(430px, calc(100vw - 36px));
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: #17140f;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.34);
+}
+
+.release-history[hidden] {
+  display: none;
+}
+
+.release-history__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.release-history__header > div {
+  display: grid;
+  gap: 3px;
+}
+
+.release-history__header strong {
+  color: #fffdf7;
+  font-size: 15px;
+}
+
+.release-history__header span,
+.release-history__note,
+.release-history__empty {
+  color: rgba(255, 253, 247, 0.64);
+}
+
+.release-history__close {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #fffdf7;
+  cursor: pointer;
+  font: inherit;
+  font-size: 22px;
+}
+
+.release-history__close:hover,
+.release-history__close:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.release-history__content {
+  max-height: min(420px, 55vh);
+  overflow-y: auto;
+}
+
+.release-history__content > p {
+  margin: 0;
+  padding: 18px 16px;
+}
+
+.release-history__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.release-history__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 14px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.release-history__item:last-child {
+  border-bottom: 0;
+}
+
+.release-history__title {
+  overflow: hidden;
+  color: #fffdf7;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.release-history__date {
+  color: rgba(255, 253, 247, 0.58);
+  font-size: 12px;
+}
+
+.release-history__action {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  padding: 5px 0;
+  border: 0;
+  background: transparent;
+  color: #e0bc70;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.release-history__action:hover,
+.release-history__action:focus-visible {
+  color: #f0d08c;
+  outline: none;
+}
+
+.release-history__undo {
+  font-size: 18px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.release-history__live {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: rgba(100, 190, 135, 0.16);
+  color: #9cddb5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.release-history__note {
+  margin: 0;
+  padding: 11px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 11px;
+}
+
+.restore-confirmation {
+  width: min(460px, calc(100vw - 32px));
+  padding: 22px;
+  border: 1px solid #6d624e;
+  border-radius: 10px;
+  background: #17140f;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+  color: #fffdf7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.restore-confirmation::backdrop {
+  background: rgba(15, 13, 10, 0.68);
+  backdrop-filter: blur(3px);
+}
+
+.restore-confirmation__icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 14px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(224, 188, 112, 0.14);
+  color: #e0bc70;
+  font-size: 27px;
+}
+
+.restore-confirmation__eyebrow {
+  margin: 0 0 5px;
+  color: #e0bc70;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.restore-confirmation h2 {
+  margin: 0 0 12px;
+  color: #fffdf7;
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.restore-confirmation p:not(.restore-confirmation__eyebrow) {
+  margin: 8px 0 0;
+  color: rgba(255, 253, 247, 0.72);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.restore-confirmation p strong {
+  color: #fffdf7;
+}
+
+.restore-confirmation__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.restore-confirmation__cancel,
+.restore-confirmation__continue {
+  appearance: none;
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.restore-confirmation__cancel {
+  border: 1px solid #8d8068;
+  background: transparent;
+  color: #fffdf7;
+}
+
+.restore-confirmation__continue {
+  border: 1px solid #e0bc70;
+  background: #e0bc70;
+  color: #17140f;
+}
+
+.restore-confirmation__cancel:hover,
+.restore-confirmation__cancel:focus-visible {
+  border-color: #fffdf7;
+  outline: none;
+}
+
+.restore-confirmation__continue:hover,
+.restore-confirmation__continue:focus-visible {
+  background: #f0d08c;
+  outline: none;
 }
 
 @media (max-width: 620px) {
@@ -87,5 +368,10 @@
   .release-dock__actions {
     flex: 1;
     justify-content: flex-end;
+  }
+
+  .release-history {
+    right: -1px;
+    width: calc(100vw - 20px);
   }
 }

@@ -6,6 +6,8 @@ Netlify production deployment.
 ## Edit and preview
 
 1. Open `/admin/` on the production site.
+   The staging and release controls remain hidden until GitHub authentication
+   succeeds.
 2. Edit a page and select **Publish**. This saves the change to the `staging`
    branch; it does not change the live site.
 3. Use **View staging** in the release dock to review the complete staged site
@@ -22,6 +24,19 @@ Netlify production deployment.
 
 Keep the `staging` branch after a release. If GitHub offers to delete it, leave
 it in place because Decap CMS uses it for future edits.
+
+## Restore a previous release
+
+1. Select **Release history** in the CMS release dock.
+2. Find the previous production version and select **Restore**.
+3. Review the confirmation explaining that newer releases will be preserved.
+4. Continue to the authenticated Netlify deploy screen and select
+   **Publish deploy**.
+
+Netlify production rollbacks are immediate and do not consume deployment
+credits. A later production release from `main` will replace the restored
+version, so use this as a safe recovery control rather than a replacement for
+the Git history.
 
 ## Netlify project settings
 
