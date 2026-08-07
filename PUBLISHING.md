@@ -23,6 +23,17 @@ Netlify production deployment.
 Keep the `staging` branch after a release. If GitHub offers to delete it, leave
 it in place because Decap CMS uses it for future edits.
 
+## Restore a previous release
+
+1. Select **Release history** in the CMS release dock.
+2. Find the previous production version and select **Restore…**.
+3. In the authenticated Netlify deploy screen, select **Publish deploy**.
+
+Netlify production rollbacks are immediate and do not consume deployment
+credits. A later production release from `main` will replace the restored
+version, so use this as a safe recovery control rather than a replacement for
+the Git history.
+
 ## Netlify project settings
 
 - Production branch: `main`

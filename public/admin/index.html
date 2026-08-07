@@ -12,12 +12,20 @@
   <body>
     <script src="https://unpkg.com/decap-cms@3.11.0/dist/decap-cms.js"></script>
     <script src="/admin/previews.js"></script>
+    <script src="/admin/release-controls.js"></script>
     <aside class="release-dock" aria-label="Website release controls">
       <div class="release-dock__status">
         <strong>Staging mode</strong>
-        <span>Published edits are not live yet.</span>
+        <span id="release-status" aria-live="polite">Checking for staged changes…</span>
       </div>
       <div class="release-dock__actions">
+        <button
+          id="release-history-toggle"
+          class="release-dock__link"
+          type="button"
+          aria-expanded="false"
+          aria-controls="release-history"
+        >Release history</button>
         <a
           class="release-dock__link"
           href="https://staging--billy-ready.netlify.app"
@@ -25,12 +33,27 @@
           rel="noopener noreferrer"
         >View staging</a>
         <a
+          id="release-site-link"
           class="release-dock__link release-dock__link--primary"
           href="https://github.com/clayrayy/billy-ready/compare/main...staging?expand=1"
           target="_blank"
           rel="noopener noreferrer"
+          hidden
         >Release site</a>
       </div>
+      <section id="release-history" class="release-history" aria-label="Previous releases" hidden>
+        <div class="release-history__header">
+          <div>
+            <strong>Previous releases</strong>
+            <span>Restore an earlier live version without using deploy credits.</span>
+          </div>
+          <button id="release-history-close" class="release-history__close" type="button" aria-label="Close release history">×</button>
+        </div>
+        <div id="release-history-content" class="release-history__content">
+          <p>Loading releases…</p>
+        </div>
+        <p class="release-history__note">A restored version stays live until the next production release.</p>
+      </section>
     </aside>
   </body>
 </html>
