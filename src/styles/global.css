@@ -818,9 +818,14 @@ h2 {
 }
 
 .page-hero h1 {
+  grid-column: 2;
   max-width: 1080px;
   margin-bottom: 2.5rem;
   font-size: clamp(4rem, 9vw, 9.25rem);
+}
+
+.page-hero__inner > .eyebrow {
+  grid-column: 1;
 }
 
 .page-hero__intro {
@@ -828,6 +833,23 @@ h2 {
   max-width: 630px;
   color: rgba(251, 248, 241, 0.7);
   font-size: 1.1rem;
+}
+
+.page-hero__inner--centered {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  text-align: center;
+}
+
+.page-hero__inner--centered h1,
+.page-hero__inner--centered .page-hero__intro,
+.page-hero__inner--centered .page-hero__actions {
+  grid-column: 1;
+  margin-inline: auto;
+}
+
+.page-hero__inner--centered .page-hero__actions {
+  justify-content: center;
 }
 
 .two-column-intro,
@@ -1146,6 +1168,31 @@ h2 {
 
 .song-story__body aside .text-link {
   margin-top: 2rem;
+}
+
+.song-player {
+  margin-top: 1rem;
+}
+
+.song-player__audio {
+  display: block;
+  width: 100%;
+}
+
+.song-player__download {
+  display: inline-block;
+  margin-top: 0.85rem;
+  color: var(--gold-light);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25rem;
+}
+
+.song-player__download:hover {
+  color: var(--paper);
 }
 
 .prose {
@@ -1518,7 +1565,16 @@ h2 {
   }
 
   .page-hero h1 {
+    grid-column: 1;
     margin-bottom: 0;
+  }
+
+  .page-hero__inner--centered h1 {
+    margin-bottom: 2rem;
+  }
+
+  .page-hero__inner > .eyebrow {
+    grid-column: 1;
   }
 
   .page-hero__intro {

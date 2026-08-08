@@ -14,7 +14,7 @@ export interface PageAction {
 
 export interface PageHeroData {
   style: "home" | "standard" | "image";
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   accent?: string;
   subheading?: string;
@@ -90,6 +90,8 @@ export interface FeatureListSection extends SectionBase {
 export interface RolesSection extends SectionBase {
   type: "roles";
   roles: string[];
+  image?: string;
+  imageAlt?: string;
   body?: string;
   action?: PageAction;
 }

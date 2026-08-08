@@ -27,7 +27,7 @@ const heroImage = hero.image || defaultHeroImage.src;
     </div>
     <div class="home-hero__shade"></div>
     <div class="home-hero__content page-shell">
-      <p class="eyebrow hero-enter hero-enter--1">{hero.eyebrow}</p>
+      {hero.eyebrow && <p class="eyebrow hero-enter hero-enter--1">{hero.eyebrow}</p>}
       <h1 class="hero-enter hero-enter--2">{hero.title} {hero.accent && <span>{hero.accent}</span>}</h1>
       {hero.subheading && <p class="hero-tagline hero-enter hero-enter--3">{hero.subheading}</p>}
       <p class="hero-copy hero-enter hero-enter--4">{hero.intro}</p>
@@ -47,8 +47,8 @@ const heroImage = hero.image || defaultHeroImage.src;
         <img src={hero.image} alt="" style={`object-position: ${imagePosition} center`} loading="eager" fetchpriority="high" decoding="async" />
       </div>
     )}
-    <div class="page-shell page-hero__inner">
-      <p class="eyebrow hero-enter hero-enter--1">{hero.eyebrow}</p>
+    <div class:list={["page-shell", "page-hero__inner", { "page-hero__inner--centered": !hero.eyebrow }]}>
+      {hero.eyebrow && <p class="eyebrow hero-enter hero-enter--1">{hero.eyebrow}</p>}
       <h1 class="hero-enter hero-enter--2">{hero.title}{hero.accent && <> <em>{hero.accent}</em></>}</h1>
       <p class="page-hero__intro hero-enter hero-enter--3">{hero.intro}</p>
       {(hero.primaryAction || hero.secondaryAction) && (

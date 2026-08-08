@@ -136,11 +136,16 @@ const listItems = (section: Extract<PageSection, { type: "featureList" }>) => {
 
       {section.type === "roles" && (
         <section class:list={["builder-section", "builder-roles", `builder-theme--${sectionTheme(section)}`]}>
-          <div class="page-shell builder-roles__layout reveal">
-            <div>
+          <div class:list={["page-shell", "builder-roles__layout", { "builder-roles__layout--with-image": section.image }, "reveal"]}>
+            <div class="builder-roles__identity">
               {section.eyebrow && <p class="eyebrow">{section.eyebrow}</p>}
               <p class="builder-roles__names">{section.roles.map((role) => <span>{role}</span>)}</p>
             </div>
+            {section.image && (
+              <figure class="builder-roles__portrait">
+                <img src={section.image} alt={section.imageAlt ?? ""} width="900" height="900" loading="lazy" decoding="async" />
+              </figure>
+            )}
             <div class="builder-copy">
               {section.body && <RichText body={section.body} />}
               {section.action && <a class:list={["text-link", { "text-link--light": sectionTheme(section) === "dark" }]} href={section.action.href}>{section.action.label} <span aria-hidden="true">→</span></a>}

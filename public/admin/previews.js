@@ -107,6 +107,11 @@
   function renderHero(hero, getAsset) {
     var style = field(hero, "style", "standard");
     var image = assetUrl(getAsset, field(hero, "image"), "/images/billy-ready-og.jpg");
+    var eyebrowText = field(hero, "eyebrow");
+    var title = field(hero, "title");
+    var accent = field(hero, "accent");
+    var subheading = field(hero, "subheading");
+    var intro = field(hero, "intro");
     var primary = objectField(hero, "primaryAction");
     var secondary = objectField(hero, "secondaryAction");
 
@@ -118,10 +123,10 @@
         h(
           "div",
           { className: "br-home-hero-content" },
-          eyebrow(field(hero, "eyebrow")),
-          h("h1", {}, field(hero, "title", "Billy Ready"), h("em", {}, field(hero, "accent", "Music"))),
-          h("h2", { className: "br-preserve-lines" }, field(hero, "subheading", "Music for the Journey Home.")),
-          h("p", {}, field(hero, "intro")),
+          eyebrow(eyebrowText),
+          title || accent ? h("h1", {}, title, accent ? h("em", {}, accent) : null) : null,
+          subheading ? h("h2", { className: "br-preserve-lines" }, subheading) : null,
+          intro ? h("p", {}, intro) : null,
           h("div", { className: "br-actions" }, actionLink(primary, true), actionLink(secondary, true)),
         ),
       );
@@ -130,12 +135,12 @@
     return h(
       "section",
       {
-        className: "br-page-hero " + (style === "image" && field(hero, "image") ? "br-page-hero--image" : ""),
+        className: "br-page-hero br-page-hero--builder " + (!eyebrowText ? "br-page-hero--centered " : "") + (style === "image" && field(hero, "image") ? "br-page-hero--image" : ""),
         style: style === "image" && field(hero, "image") ? { backgroundImage: 'linear-gradient(90deg, rgba(9,8,6,.9), rgba(9,8,6,.35)), url("' + image + '")' } : {},
       },
-      eyebrow(field(hero, "eyebrow", "Page introduction")),
-      h("h1", {}, field(hero, "title", "Page heading"), field(hero, "accent") ? h("em", {}, " " + field(hero, "accent")) : null),
-      h("p", { className: "br-hero-intro" }, field(hero, "intro", "Page introduction appears here.")),
+      eyebrow(eyebrowText),
+      title || accent ? h("h1", {}, title, accent ? h("em", {}, " " + accent) : null) : null,
+      intro ? h("p", { className: "br-hero-intro" }, intro) : null,
       h("div", { className: "br-actions" }, actionLink(primary, true), actionLink(secondary, true)),
     );
   }
@@ -161,7 +166,7 @@
             "div",
             { className: "br-body" },
             field(section, "lead") ? h("p", { className: "br-lead" }, field(section, "lead")) : null,
-            body || h("p", {}, field(section, "body", "Add content to this section.")),
+            body || null,
           ),
         ),
       );
@@ -194,11 +199,12 @@
     }
 
     if (type === "quote") {
+      var quote = field(section, "quote");
       return h(
         "section",
         baseProps,
         eyebrow(field(section, "eyebrow")),
-        h("blockquote", {}, "“", field(section, "quote", "Add a memorable quotation."), "”"),
+        quote ? h("blockquote", {}, "“", quote, "”") : null,
         field(section, "attribution") ? h("p", { className: "br-attribution" }, field(section, "attribution")) : null,
       );
     }
@@ -244,9 +250,6 @@
     if (type === "featureList") {
       var source = field(section, "source", "custom");
       var items = arrayField(section, "items");
-      if (source !== "custom") {
-        items = ["Reusable list from Site settings", "Updates once and appears everywhere", "Preview the exact list in Site settings"];
-      }
       return h(
         "section",
         baseProps,
@@ -257,22 +260,26 @@
           h(
             "ol",
             { className: "br-feature-list br-list-" + field(section, "style", "plain") },
-            items.map(function (item, itemIndex) {
-              return h("li", { key: itemIndex }, field(section, "style") === "numbered" ? h("span", {}, String(itemIndex + 1).padStart(2, "0")) : null, item);
-            }),
+            source === "custom"
+              ? items.map(function (item, itemIndex) {
+                  return h("li", { key: itemIndex }, field(section, "style") === "numbered" ? h("span", {}, String(itemIndex + 1).padStart(2, "0")) : null, item);
+                })
+              : h("li", { className: "br-admin-note" }, "This list uses the current items from Site settings."),
           ),
         ),
       );
     }
 
     if (type === "roles") {
+      var roleImage = assetUrl(getAsset, field(section, "image"));
       return h(
         "section",
         baseProps,
         h(
           "div",
-          { className: "br-builder-grid br-roles-grid" },
+          { className: "br-builder-grid br-roles-grid" + (roleImage ? " br-roles-grid--with-image" : "") },
           h("div", {}, eyebrow(field(section, "eyebrow")), h("p", { className: "br-roles" }, arrayField(section, "roles").map(function (role, roleIndex) { return h("span", { key: roleIndex }, role); }))),
+          roleImage ? h("figure", { className: "br-role-portrait" }, h("img", { src: roleImage, alt: field(section, "imageAlt") })) : null,
           h("div", { className: "br-body" }, body || h("p", {}, field(section, "body")), actionLink(action, light)),
         ),
       );
@@ -358,9 +365,10 @@
     render: function () {
       var entry = this.props.entry;
       var socialLinks = entryArray(entry, "socialLinks");
+      var email = entryValue(entry, "email");
       return frame("Site-wide settings", [
-        h("section", { className: "br-page-hero" }, eyebrow("Site identity"), h("h1", {}, entryValue(entry, "name", "Billy Ready Music")), h("p", { className: "br-hero-intro" }, entryValue(entry, "tagline")), h("p", {}, entryValue(entry, "description"))),
-        h("section", { className: "br-builder br-theme-paper" }, h("div", { className: "br-builder-grid" }, h("div", {}, eyebrow("Contact"), h("h2", {}, entryValue(entry, "phoneDisplay", "Phone number")), h("p", {}, entryValue(entry, "email", "No email published")), h("p", {}, entryValue(entry, "location"))), h("div", {}, eyebrow("Social links"), socialLinks.length ? h("ul", { className: "br-simple-list" }, socialLinks.map(function (link, index) { return h("li", { key: index }, link.label, h("small", {}, link.href)); })) : h("p", { className: "br-admin-note" }, "No social links have been added.")))),
+        h("section", { className: "br-page-hero" }, eyebrow("Site identity"), h("h1", {}, entryValue(entry, "name")), h("p", { className: "br-hero-intro" }, entryValue(entry, "tagline")), h("p", {}, entryValue(entry, "description"))),
+        h("section", { className: "br-builder br-theme-paper" }, h("div", { className: "br-builder-grid" }, h("div", {}, eyebrow("Contact"), h("h2", {}, entryValue(entry, "phoneDisplay")), email ? h("p", {}, email) : null, h("p", {}, entryValue(entry, "location"))), h("div", {}, eyebrow("Social links"), socialLinks.length ? h("ul", { className: "br-simple-list" }, socialLinks.map(function (link, index) { return h("li", { key: index }, link.label, h("small", {}, link.href)); })) : h("p", { className: "br-admin-note" }, "No social links have been added.")))),
         h("section", { className: "br-builder br-theme-dark" }, eyebrow("Reusable ministry event types"), h("ol", { className: "br-simple-list" }, entryArray(entry, "ministryEvents").map(function (item, index) { return h("li", { key: index }, item); }))),
         h("section", { className: "br-builder br-theme-paper" }, eyebrow("Reusable gathering features"), h("ul", { className: "br-simple-list" }, entryArray(entry, "ministryIncludes").map(function (item, index) { return h("li", { key: index }, item); }))),
       ]);
@@ -370,9 +378,11 @@
   var SongPreview = createClass({
     render: function () {
       var entry = this.props.entry;
+      var listenUrl = entryValue(entry, "listenUrl");
+      var isHostedAudio = listenUrl && listenUrl.charAt(0) === "/" && /\.(mp3|m4a|aac|ogg|wav)(?:[?#].*)?$/i.test(listenUrl);
       return frame("/songs/…", [
-        h("header", { className: "br-song-hero" }, eyebrow("Behind the song"), h("h1", {}, entryValue(entry, "title", "Untitled song")), h("p", { className: "br-hero-intro" }, entryValue(entry, "summary", "Add a short summary.")), entryValue(entry, "scripture") ? h("p", { className: "br-scripture" }, "Inspired by ", entryValue(entry, "scripture")) : null),
-        h("section", { className: "br-section br-song-body" }, h("div", { className: "br-prose" }, this.props.widgetFor("body")), h("aside", {}, eyebrow(entryValue(entry, "listenUrl") ? "Listen" : "Release details"), h("p", {}, entryValue(entry, "listenUrl", "Add a listening URL when the release is ready.")))),
+        h("header", { className: "br-song-hero" }, eyebrow("Behind the song"), h("h1", {}, entryValue(entry, "title")), h("p", { className: "br-hero-intro" }, entryValue(entry, "summary")), entryValue(entry, "scripture") ? h("p", { className: "br-scripture" }, "Inspired by ", entryValue(entry, "scripture")) : null),
+        h("section", { className: "br-section br-song-body" }, h("div", { className: "br-prose" }, this.props.widgetFor("body")), h("aside", {}, eyebrow(listenUrl ? "Listen" : "Release details"), isHostedAudio ? h("audio", { className: "br-song-audio", controls: true, preload: "metadata", src: listenUrl }) : h("p", {}, listenUrl || "Add a listening link when the release is ready."))),
       ]);
     },
   });
