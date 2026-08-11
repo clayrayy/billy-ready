@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Form definitions</title>
+  </head>
+  <body>
+    <!-- Netlify scans this static file during deployment to register Astro-rendered forms. -->
+    <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="newsletter" />
+      <input name="bot-field" />
+      <input name="first-name" type="text" />
+      <input name="email" type="email" />
+    </form>
+
+    <form name="booking-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="booking-request" />
+      <input name="bot-field" />
+      <input name="name" type="text" />
+      <input name="organization" type="text" />
+      <input name="email" type="email" />
+      <input name="phone" type="tel" />
+      <input name="event-type" type="text" />
+      <input name="event-date" type="date" />
+      <textarea name="message"></textarea>
+      <input name="consent" type="checkbox" />
+    </form>
+  </body>
+</html>
