@@ -11,34 +11,74 @@ import { ministryEvents } from "../data/site";
   netlify-honeypot="bot-field"
 >
   <input type="hidden" name="form-name" value="booking-request" />
+  <input type="hidden" name="subject" value="New booking request for Billy Ready Music" />
   <p class="hidden-field">
     <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
   </p>
-  <div class="field-row">
-    <label>Your name <span aria-hidden="true">*</span><input name="name" type="text" autocomplete="name" required /></label>
-    <label>Church or organization<input name="organization" type="text" autocomplete="organization" /></label>
-  </div>
-  <div class="field-row">
-    <label>Email address <span aria-hidden="true">*</span><input name="email" type="email" autocomplete="email" required /></label>
-    <label>Phone number <span aria-hidden="true">*</span><input name="phone" type="tel" autocomplete="tel" required /></label>
-  </div>
-  <div class="field-row">
+
+  <p class="booking-form__required-note"><span aria-hidden="true">*</span> Required fields</p>
+
+  <fieldset class="booking-form__group">
+    <legend><span aria-hidden="true">01</span> Your contact details</legend>
+    <div class="field-row">
+      <label>
+        <span class="field-label">Your name <span class="field-required" aria-hidden="true">*</span></span>
+        <input name="name" type="text" autocomplete="name" placeholder="Your full name" required />
+      </label>
+      <label>
+        <span class="field-label">Church or organization <span class="field-optional">Optional</span></span>
+        <input name="organization" type="text" autocomplete="organization" placeholder="Church or organization name" />
+      </label>
+    </div>
+    <div class="field-row">
+      <label>
+        <span class="field-label">Email address <span class="field-required" aria-hidden="true">*</span></span>
+        <input name="email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required />
+      </label>
+      <label>
+        <span class="field-label">Phone number <span class="field-required" aria-hidden="true">*</span></span>
+        <input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(601) 555-0123" required />
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset class="booking-form__group">
+    <legend><span aria-hidden="true">02</span> About the gathering</legend>
+    <div class="field-row">
+      <label>
+        <span class="field-label">Event type <span class="field-optional">Optional</span></span>
+        <select name="event-type">
+          <option value="">Select an event type</option>
+          {ministryEvents.map((event) => <option value={event}>{event}</option>)}
+        </select>
+      </label>
+      <label>
+        <span class="field-label">Tentative date <span class="field-optional">Optional</span></span>
+        <input name="event-date" type="date" />
+      </label>
+    </div>
     <label>
-      Event type
-      <select name="event-type">
-        <option value="">Select one</option>
-        {ministryEvents.map((event) => <option value={event}>{event}</option>)}
-      </select>
+      <span class="field-label">Tell us about your event <span class="field-required" aria-hidden="true">*</span></span>
+      <textarea
+        name="message"
+        rows="7"
+        required
+        aria-describedby="event-message-hint"
+        placeholder="Share the location, congregation size, service format, and anything else that would help Billy understand the gathering."
+      ></textarea>
+      <span id="event-message-hint" class="field-hint">A few details are plenty. This request simply starts a conversation.</span>
     </label>
-    <label>Tentative date<input name="event-date" type="date" /></label>
+  </fieldset>
+
+  <div class="booking-form__consent">
+    <label class="consent-field">
+      <input name="consent" type="checkbox" value="yes" required />
+      <span>I agree that Billy Ready Music may use these details to respond to my request.</span>
+    </label>
+    <a class="booking-form__privacy" href="/privacy">Read the privacy policy <span aria-hidden="true">→</span></a>
   </div>
-  <label>
-    Tell us about your event <span aria-hidden="true">*</span>
-    <textarea name="message" rows="6" required placeholder="Location, congregation size, service format, and anything else that would help…"></textarea>
-  </label>
-  <label class="consent-field">
-    <input name="consent" type="checkbox" value="yes" required />
-    <span>I agree that Billy Ready Music may use this information to respond to my request.</span>
-  </label>
-  <button class="button button--dark" type="submit">Send booking request</button>
+  <div class="booking-form__actions">
+    <button class="button button--dark" type="submit">Send booking request <span aria-hidden="true">→</span></button>
+    <p>Your request does not create an obligation.</p>
+  </div>
 </form>
