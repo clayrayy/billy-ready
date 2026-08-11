@@ -323,7 +323,20 @@
           "div",
           { className: "br-builder-grid" },
           h("div", {}, eyebrow(field(section, "eyebrow")), h("h2", {}, heading), h("p", {}, field(section, "body")), h("p", { className: "br-admin-note" }, field(section, "contactNote"))),
-          h("div", { className: "br-form-preview" }, h("span", {}, "Name"), h("span", {}, "Email address"), h("span", { className: "br-form-wide" }, "Tell us about your event"), h("strong", {}, "Send booking request")),
+          h(
+            "div",
+            { className: "br-form-preview" },
+            h("small", { className: "br-form-group-label" }, h("b", {}, "01"), " Your contact details"),
+            h("span", {}, "Your name *"),
+            h("span", {}, "Church or organization · Optional"),
+            h("span", {}, "Email address *"),
+            h("span", {}, "Phone number *"),
+            h("small", { className: "br-form-group-label" }, h("b", {}, "02"), " About the gathering"),
+            h("span", {}, "Event type · Optional"),
+            h("span", {}, "Tentative date · Optional"),
+            h("span", { className: "br-form-wide br-form-message" }, "Tell us about your event *"),
+            h("strong", {}, "Send booking request →"),
+          ),
         ),
       );
     }
