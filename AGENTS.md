@@ -69,7 +69,7 @@ These instructions apply to the entire repository. Read this file before changin
 - `src/components/BookingForm.astro` posts `booking-request` to Netlify and redirects to `/booking-thanks`.
 - `src/components/NewsletterForm.astro` currently posts `newsletter` to Netlify and redirects to `/newsletter-thanks`.
 - `public/__forms.html` is the explicit Netlify form-detection manifest. Whenever a form name or submitted field changes, update the matching hidden definition in the same commit.
-- Both forms use a `bot-field` honeypot. Keep it and the hidden `form-name` input.
+- The newsletter uses a `bot-field` honeypot. The booking form intentionally relies on Netlify's built-in Akismet filtering without a honeypot because contact-card autofill can populate an offscreen booking field and Netlify silently discards honeypot hits without recording them. Keep each hidden `form-name` input.
 - Netlify Forms must be enabled and the definitions must pass through a production deploy before live POSTs work. Astro local development returns 404 for form POSTs.
 - Netlify should store booking requests and can email submission notifications. The likely newsletter direction is Substack because Billy has expressed interest in it; do not replace the current signup until the user supplies the Substack publication URL or official embed code.
 - When a newsletter provider is chosen, update `src/pages/privacy.astro` to name the provider and describe the data flow.

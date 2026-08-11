@@ -8,13 +8,9 @@ import { ministryEvents } from "../data/site";
   method="POST"
   action="/booking-thanks"
   data-netlify="true"
-  netlify-honeypot="bot-field"
 >
   <input type="hidden" name="form-name" value="booking-request" />
   <input type="hidden" name="subject" value="New booking request for Billy Ready Music" />
-  <p class="hidden-field">
-    <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
-  </p>
 
   <p class="booking-form__required-note"><span aria-hidden="true">*</span> Required fields</p>
 
