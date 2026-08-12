@@ -68,7 +68,7 @@ These instructions apply to the entire repository. Read this file before changin
 
 - `src/components/BookingForm.astro` posts `booking-request` to Netlify and redirects to `/booking-thanks`.
 - `src/components/NewsletterForm.astro` posts directly to Brevo and uses Brevo double opt-in. Its public form endpoint, validation script, invisible reCAPTCHA site key, and field names originate from Brevo's generated embed. Never add a Brevo API key, SMTP key, or password to the repository.
-- Brevo's generated reCAPTCHA key rejects `localhost`, so the reCAPTCHA element and Google script are intentionally omitted when `import.meta.env.DEV` is true. Test newsletter submission only on a staging or production deploy.
+- Brevo's generated reCAPTCHA key rejects `localhost`. The floating badge is intentionally hidden in every environment in favor of Google's required inline disclosure; a manual challenge can still appear when reCAPTCHA considers a submission suspicious. Test newsletter submission only on a staging or production deploy.
 - `public/__forms.html` is the explicit Netlify form-detection manifest for the booking form. Whenever its submitted fields change, update the hidden definition in the same commit.
 - The booking form intentionally relies on Netlify's built-in Akismet filtering without a honeypot because contact-card autofill can populate an offscreen booking field and Netlify silently discards honeypot hits without recording them. Keep its hidden `form-name` input.
 - Netlify Forms must be enabled and the definitions must pass through a production deploy before live POSTs work. Astro local development returns 404 for form POSTs.

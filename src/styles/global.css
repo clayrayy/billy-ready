@@ -911,6 +911,12 @@ h2 {
   text-underline-offset: 0.16em;
 }
 
+/* Google permits hiding the floating badge when its required disclosure is
+   shown visibly alongside the protected form. */
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
 .newsletter-form .entry__error {
   grid-column: 1 / -1;
   margin: 0;
