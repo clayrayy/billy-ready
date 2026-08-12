@@ -32,10 +32,10 @@
       action="https://d300b20a.sibforms.com/serve/MUIFAGA0RnoiUFxF24my3lioh1WexnPtB-rLxs1m55r5VcUzWYglvLFUhp1OSCEEmGODQnkfXYhKuyLA5a0MU5p-6coFYAa6HDpO91jtGENbZPR4_bMYweKpzFkG63tV7oiLKqlUDEnBwcS6bEjxvYt_GaZM4Cl2k96j1uz2aqtNyKDUmLTAJyl0zyVZZ5hIDpQW0f9H9zpsxWvV-Q=="
       data-type="subscription"
     >
-      <div class="sib-input sib-form-block newsletter-field">
+      <div class="sib-input sib-form-block newsletter-field newsletter-field--first-name">
         <div class="form__entry entry_block">
           <div class="form__label-row">
-            <label class="sr-only entry__label" for="FIRSTNAME">First name</label>
+            <label class="sr-only entry__label" for="FIRSTNAME" data-required="*">First name</label>
             <div class="entry__field">
               <input
                 class="input newsletter-input"
@@ -45,6 +45,8 @@
                 maxlength="200"
                 autocomplete="given-name"
                 placeholder="First name"
+                data-required="true"
+                required
               />
             </div>
           </div>
@@ -52,7 +54,29 @@
         </div>
       </div>
 
-      <div class="sib-input sib-form-block newsletter-field">
+      <div class="sib-input sib-form-block newsletter-field newsletter-field--last-name">
+        <div class="form__entry entry_block">
+          <div class="form__label-row">
+            <label class="sr-only entry__label" for="LASTNAME" data-required="*">Last name</label>
+            <div class="entry__field">
+              <input
+                class="input newsletter-input"
+                id="LASTNAME"
+                name="LASTNAME"
+                type="text"
+                maxlength="200"
+                autocomplete="family-name"
+                placeholder="Last name"
+                data-required="true"
+                required
+              />
+            </div>
+          </div>
+          <label class="entry__error entry__error--primary" aria-live="polite"></label>
+        </div>
+      </div>
+
+      <div class="sib-input sib-form-block newsletter-field newsletter-field--email">
         <div class="form__entry entry_block">
           <div class="form__label-row">
             <label class="sr-only entry__label" for="EMAIL" data-required="*">Email address</label>
@@ -109,7 +133,7 @@
       ></div>
 
       <div class="sib-form-block newsletter-submit">
-        <button class="button button--light sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">
+        <button class="button button--dark sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">
           <svg class="newsletter-submit__loader sib-hide-loader-icon" viewBox="0 0 512 512" aria-hidden="true">
             <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 51.558 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
           </svg>
