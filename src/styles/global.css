@@ -937,8 +937,7 @@ h2 {
 }
 
 .newsletter-form .input--hidden {
-  position: absolute;
-  left: -9999px;
+  display: none !important;
 }
 
 @keyframes newsletter-spin {
