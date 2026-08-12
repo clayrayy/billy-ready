@@ -1,19 +1,133 @@
-<form
-  class="newsletter-form"
-  name="newsletter"
-  method="POST"
-  action="/newsletter-thanks"
-  data-netlify="true"
-  netlify-honeypot="bot-field"
->
-  <input type="hidden" name="form-name" value="newsletter" />
-  <p class="hidden-field">
-    <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
-  </p>
-  <label class="sr-only" for="newsletter-name">First name</label>
-  <input id="newsletter-name" name="first-name" type="text" autocomplete="given-name" placeholder="First name" required />
-  <label class="sr-only" for="newsletter-email">Email address</label>
-  <input id="newsletter-email" name="email" type="email" autocomplete="email" placeholder="Email address" required />
-  <button class="button button--light" type="submit">Stay connected</button>
-</form>
-<p class="form-note">Occasional encouragement and new music. Unsubscribe anytime.</p>
+---
+const isLocalPreview = import.meta.env.DEV;
+---
+
+<div id="sib-form-container" class="newsletter-signup">
+  <div
+    id="error-message"
+    class="sib-form-message-panel newsletter-message newsletter-message--error"
+    role="alert"
+    aria-live="assertive"
+  >
+    <span class="sib-form-message-panel__inner-text">We couldn’t start your subscription. Please try again in a moment.</span>
+  </div>
+
+  <div
+    id="success-message"
+    class="sib-form-message-panel newsletter-message newsletter-message--success"
+    role="status"
+    aria-live="polite"
+  >
+    <span class="sib-form-message-panel__inner-text">Almost done! Check your inbox and click the confirmation link to complete your subscription.</span>
+  </div>
+
+  <div id="sib-container">
+    <form
+      id="sib-form"
+      class="newsletter-form"
+      method="POST"
+      action="https://d300b20a.sibforms.com/serve/MUIFAGA0RnoiUFxF24my3lioh1WexnPtB-rLxs1m55r5VcUzWYglvLFUhp1OSCEEmGODQnkfXYhKuyLA5a0MU5p-6coFYAa6HDpO91jtGENbZPR4_bMYweKpzFkG63tV7oiLKqlUDEnBwcS6bEjxvYt_GaZM4Cl2k96j1uz2aqtNyKDUmLTAJyl0zyVZZ5hIDpQW0f9H9zpsxWvV-Q=="
+      data-type="subscription"
+    >
+      <div class="sib-input sib-form-block newsletter-field">
+        <div class="form__entry entry_block">
+          <label class="sr-only" for="newsletter-name">First name</label>
+          <div class="entry__field">
+            <input
+              class="input newsletter-input"
+              id="newsletter-name"
+              name="FIRSTNAME"
+              type="text"
+              maxlength="200"
+              autocomplete="given-name"
+              placeholder="First name"
+            />
+          </div>
+          <p class="entry__error entry__error--primary" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="sib-input sib-form-block newsletter-field">
+        <div class="form__entry entry_block">
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <div class="entry__field">
+            <input
+              class="input newsletter-input"
+              id="newsletter-email"
+              name="EMAIL"
+              type="email"
+              autocomplete="email"
+              placeholder="Email address"
+              data-required="true"
+              required
+            />
+          </div>
+          <p class="entry__error entry__error--primary" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="sib-form-block newsletter-submit">
+        <button class="button button--light sib-form-block__button sib-form-block__button-with-loader" type="submit">
+          <svg class="newsletter-submit__loader sib-hide-loader-icon" viewBox="0 0 512 512" aria-hidden="true">
+            <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 51.558 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+          </svg>
+          <span>Stay connected</span>
+        </button>
+      </div>
+
+      <div class="sib-optin sib-form-block newsletter-consent" data-required="true">
+        <div class="form__entry entry_mcq">
+          <label class="newsletter-consent__label" for="newsletter-opt-in">
+            <input
+              class="input newsletter-consent__input"
+              id="newsletter-opt-in"
+              name="OPT_IN"
+              type="checkbox"
+              value="1"
+              required
+            />
+            <span>Yes, I would like to receive occasional emails from Billy Ready Music. I understand that I can unsubscribe at any time.</span>
+          </label>
+          <p class="entry__error entry__error--primary" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <p class="newsletter-privacy">
+        Billy Ready Music uses Brevo to manage and deliver email updates. Read our <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+      </p>
+
+      {!isLocalPreview && (
+        <div
+          class="g-recaptcha"
+          data-sitekey="6LdYn4ItAAAAAIvqOEX-jB2FkhNL8qZPu5JCZd_D"
+          data-callback="invisibleCaptchaCallback"
+          data-size="invisible"
+        ></div>
+      )}
+      <input type="text" name="email_address_check" value="" class="input--hidden" tabindex="-1" autocomplete="off" />
+      <input type="hidden" name="locale" value="en" />
+    </form>
+  </div>
+</div>
+
+<script is:inline>
+  window.REQUIRED_CODE_ERROR_MESSAGE = "Please choose a country code";
+  window.LOCALE = "en";
+  window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "Please enter a valid email address.";
+  window.REQUIRED_ERROR_MESSAGE = "This field is required.";
+  window.GENERIC_INVALID_MESSAGE = "Some information doesn’t look right. Please check the fields and try again.";
+  window.INVALID_NUMBER = "Please enter a valid number.";
+  window.INVALID_DATE = "Please enter a valid date.";
+  window.REQUIRED_MULTISELECT_MESSAGE = "Please select at least one option.";
+  window.translation = {
+    common: {
+      selectedList: "{quantity} list selected",
+      selectedLists: "{quantity} lists selected",
+      selectedOption: "{quantity} selected",
+      selectedOptions: "{quantity} selected",
+    },
+  };
+  window.AUTOHIDE = false;
+</script>
+<script is:inline defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+{!isLocalPreview && <script is:inline async defer src="https://www.google.com/recaptcha/api.js?hl=en"></script>}

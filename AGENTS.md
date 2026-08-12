@@ -67,12 +67,13 @@ These instructions apply to the entire repository. Read this file before changin
 ## Forms and newsletter direction
 
 - `src/components/BookingForm.astro` posts `booking-request` to Netlify and redirects to `/booking-thanks`.
-- `src/components/NewsletterForm.astro` currently posts `newsletter` to Netlify and redirects to `/newsletter-thanks`.
-- `public/__forms.html` is the explicit Netlify form-detection manifest. Whenever a form name or submitted field changes, update the matching hidden definition in the same commit.
-- The newsletter uses a `bot-field` honeypot. The booking form intentionally relies on Netlify's built-in Akismet filtering without a honeypot because contact-card autofill can populate an offscreen booking field and Netlify silently discards honeypot hits without recording them. Keep each hidden `form-name` input.
+- `src/components/NewsletterForm.astro` posts directly to Brevo and uses Brevo double opt-in. Its public form endpoint, validation script, invisible reCAPTCHA site key, and field names originate from Brevo's generated embed. Never add a Brevo API key, SMTP key, or password to the repository.
+- Brevo's generated reCAPTCHA key rejects `localhost`, so the reCAPTCHA element and Google script are intentionally omitted when `import.meta.env.DEV` is true. Test newsletter submission only on a staging or production deploy.
+- `public/__forms.html` is the explicit Netlify form-detection manifest for the booking form. Whenever its submitted fields change, update the hidden definition in the same commit.
+- The booking form intentionally relies on Netlify's built-in Akismet filtering without a honeypot because contact-card autofill can populate an offscreen booking field and Netlify silently discards honeypot hits without recording them. Keep its hidden `form-name` input.
 - Netlify Forms must be enabled and the definitions must pass through a production deploy before live POSTs work. Astro local development returns 404 for form POSTs.
-- Netlify should store booking requests and can email submission notifications. The likely newsletter direction is Substack because Billy has expressed interest in it; do not replace the current signup until the user supplies the Substack publication URL or official embed code.
-- When a newsletter provider is chosen, update `src/pages/privacy.astro` to name the provider and describe the data flow.
+- Netlify should store booking requests and can email submission notifications. It does not process newsletter signups.
+- Brevo manages the current newsletter list, confirmation emails, consent records, and campaign delivery. If Billy later chooses Substack, preserve consent records and unsubscribe status during any migration.
 
 ## Audio and images
 
