@@ -1,11 +1,16 @@
-<div id="sib-form-container" class="newsletter-signup">
+<!-- Brevo's generated classes and element order are integration-critical. Keep
+     this structure aligned with the latest HTML embed while styling it locally. -->
+<div class="sib-form newsletter-signup">
+  <div id="sib-form-container" class="sib-form-container">
   <div
     id="error-message"
     class="sib-form-message-panel newsletter-message newsletter-message--error"
     role="alert"
     aria-live="assertive"
   >
-    <span class="sib-form-message-panel__inner-text">We couldn’t start your subscription. Please try again in a moment.</span>
+    <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+      <span class="sib-form-message-panel__inner-text">We couldn’t start your subscription. Please try again in a moment.</span>
+    </div>
   </div>
 
   <div
@@ -14,10 +19,12 @@
     role="status"
     aria-live="polite"
   >
-    <span class="sib-form-message-panel__inner-text">Almost done! Check your inbox and click the confirmation link to complete your subscription.</span>
+    <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+      <span class="sib-form-message-panel__inner-text">Almost done! Check your inbox and click the confirmation link to complete your subscription.</span>
+    </div>
   </div>
 
-  <div id="sib-container">
+  <div id="sib-container" class="sib-container--large sib-container--vertical">
     <form
       id="sib-form"
       class="newsletter-form"
@@ -27,64 +34,64 @@
     >
       <div class="sib-input sib-form-block newsletter-field">
         <div class="form__entry entry_block">
-          <label class="sr-only" for="newsletter-name">First name</label>
-          <div class="entry__field">
-            <input
-              class="input newsletter-input"
-              id="newsletter-name"
-              name="FIRSTNAME"
-              type="text"
-              maxlength="200"
-              autocomplete="given-name"
-              placeholder="First name"
-            />
+          <div class="form__label-row">
+            <label class="sr-only entry__label" for="FIRSTNAME">First name</label>
+            <div class="entry__field">
+              <input
+                class="input newsletter-input"
+                id="FIRSTNAME"
+                name="FIRSTNAME"
+                type="text"
+                maxlength="200"
+                autocomplete="given-name"
+                placeholder="First name"
+              />
+            </div>
           </div>
-          <p class="entry__error entry__error--primary" aria-live="polite"></p>
+          <label class="entry__error entry__error--primary" aria-live="polite"></label>
         </div>
       </div>
 
       <div class="sib-input sib-form-block newsletter-field">
         <div class="form__entry entry_block">
-          <label class="sr-only" for="newsletter-email">Email address</label>
-          <div class="entry__field">
-            <input
-              class="input newsletter-input"
-              id="newsletter-email"
-              name="EMAIL"
-              type="email"
-              autocomplete="email"
-              placeholder="Email address"
-              data-required="true"
-              required
-            />
+          <div class="form__label-row">
+            <label class="sr-only entry__label" for="EMAIL" data-required="*">Email address</label>
+            <div class="entry__field">
+              <input
+                class="input newsletter-input"
+                id="EMAIL"
+                name="EMAIL"
+                type="email"
+                autocomplete="email"
+                placeholder="Email address"
+                data-required="true"
+                required
+              />
+            </div>
           </div>
-          <p class="entry__error entry__error--primary" aria-live="polite"></p>
+          <label class="entry__error entry__error--primary" aria-live="polite"></label>
         </div>
-      </div>
-
-      <div class="sib-form-block newsletter-submit">
-        <button class="button button--light sib-form-block__button sib-form-block__button-with-loader" type="submit">
-          <svg class="newsletter-submit__loader sib-hide-loader-icon" viewBox="0 0 512 512" aria-hidden="true">
-            <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 51.558 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
-          </svg>
-          <span>Stay connected</span>
-        </button>
       </div>
 
       <div class="sib-optin sib-form-block newsletter-consent" data-required="true">
         <div class="form__entry entry_mcq">
-          <label class="newsletter-consent__label" for="newsletter-opt-in">
-            <input
-              class="input newsletter-consent__input"
-              id="newsletter-opt-in"
-              name="OPT_IN"
-              type="checkbox"
-              value="1"
-              required
-            />
-            <span>Yes, I would like to receive occasional emails from Billy Ready Music. I understand that I can unsubscribe at any time.</span>
-          </label>
-          <p class="entry__error entry__error--primary" aria-live="polite"></p>
+          <div class="form__label-row">
+            <label class="sr-only entry__label" for="OPT_IN" data-required="*">Email consent</label>
+            <div class="entry__choice">
+              <label class="newsletter-consent__label" for="OPT_IN">
+                <input
+                  class="input_replaced newsletter-consent__input"
+                  id="OPT_IN"
+                  name="OPT_IN"
+                  type="checkbox"
+                  value="1"
+                  required
+                />
+                <span>Yes, I would like to receive occasional emails from Billy Ready Music. I understand that I can unsubscribe at any time.</span>
+              </label>
+            </div>
+          </div>
+          <label class="entry__error entry__error--primary" aria-live="polite"></label>
         </div>
       </div>
 
@@ -98,10 +105,22 @@
         data-sitekey="6LdYn4ItAAAAAIvqOEX-jB2FkhNL8qZPu5JCZd_D"
         data-callback="invisibleCaptchaCallback"
         data-size="invisible"
+        onclick="executeCaptcha"
       ></div>
-      <input type="text" name="email_address_check" value="" class="input--hidden" tabindex="-1" autocomplete="off" />
+
+      <div class="sib-form-block newsletter-submit">
+        <button class="button button--light sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">
+          <svg class="newsletter-submit__loader sib-hide-loader-icon" viewBox="0 0 512 512" aria-hidden="true">
+            <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 51.558 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+          </svg>
+          <span>Stay connected</span>
+        </button>
+      </div>
+
+      <input type="text" name="email_address_check" value="" class="input--hidden" />
       <input type="hidden" name="locale" value="en" />
     </form>
+  </div>
   </div>
 </div>
 
@@ -125,4 +144,4 @@
   window.AUTOHIDE = false;
 </script>
 <script is:inline defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
-<script is:inline async defer src="https://www.google.com/recaptcha/api.js?hl=en"></script>
+<script is:inline src="https://www.google.com/recaptcha/api.js?hl=en"></script>

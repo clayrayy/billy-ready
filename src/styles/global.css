@@ -850,6 +850,11 @@ h2 {
   white-space: nowrap;
 }
 
+.newsletter-submit {
+  grid-column: 3;
+  grid-row: 1;
+}
+
 .newsletter-form .button:disabled {
   cursor: wait;
   opacity: 0.68;
@@ -1823,6 +1828,11 @@ h2 {
   .newsletter-form {
     gap: 0.5rem;
     background: transparent;
+  }
+
+  .newsletter-submit {
+    grid-column: 1;
+    grid-row: auto;
   }
 
   .booking-form__group {
